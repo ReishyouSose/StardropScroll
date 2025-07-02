@@ -4,7 +4,6 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardropScroll.Config;
 using StardropScroll.Content.Mission;
-using StardropScroll.Content.Mission.MissionPatches;
 using StardropScroll.Helper;
 using StardropScroll.IDs;
 using StardropScroll.UI;
@@ -21,8 +20,7 @@ namespace StardropScroll
         {
             config = helper.ReadConfig<ModConfig>();
             I18n.Init(helper.Translation);
-            Harmony harmony = new(ModManifest.UniqueID);
-            MissionPatcher.HarmonyPatch(harmony);
+            new Harmony(ModManifest.UniqueID).PatchAll();
             helper.Events.Input.ButtonPressed += Input_ButtonPressed;
             helper.Events.GameLoop.GameLaunched += GameLoop_GameLaunched;
             helper.Events.GameLoop.SaveLoaded += GameLoop_SaveLoaded;

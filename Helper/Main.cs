@@ -1,4 +1,5 @@
 ﻿using StardewModdingAPI;
+using StardewValley;
 using StardropScroll.IDs;
 
 namespace StardropScroll.Helper
@@ -48,5 +49,6 @@ namespace StardropScroll.Helper
         {
             Mod.Helper.Multiplayer.SendMessage(message, messageID.ToString(), receiveMods, receivePlayer);
         }
+        public static bool IsLocal => Game1.player.IsLocalPlayer;
     }
 }

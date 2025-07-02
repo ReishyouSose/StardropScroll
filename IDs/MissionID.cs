@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StardropScroll.Helper;
 
 namespace StardropScroll.IDs
 {
     public static class MissionID
     {
+        public static string MissionKey(string name) => $"{Main.UniqueID}/mission/{name}";
+        public const string CutTrees = "CutTrees";
+        public const string MiningStones = "MiningStones";
     }
 }

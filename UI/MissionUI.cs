@@ -53,7 +53,7 @@ namespace StardropScroll.UI
             var items = new List<Item>();
 
             // 示例：从当前社区中心收集包获取需要的物品
-            var missions = MissionManager.MissionProgress;
+            var missions = MissionManager.Missions;
             /*foreach (var (id, mission) in missions)
             {
                 items.Add(new StardewValley.Object(ingredient.index, ingredient.stack));

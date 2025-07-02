@@ -5,6 +5,7 @@ using StardewValley;
 using StardropScroll.Helper;
 using StardropScroll.IDs;
 using System.Collections.ObjectModel;
+using static StardropScroll.IDs.MissionID;
 
 namespace StardropScroll.Content.Mission
 {
@@ -37,8 +38,7 @@ namespace StardropScroll.Content.Mission
     }
     public static class MissionManager
     {
-        private static string Key(string name) => $"{Main.UniqueID}/mission/{name}";
-        public static ReadOnlyDictionary<string, PlayerMission> MissionProgress { get; private set; }
+        public static ReadOnlyDictionary<string, PlayerMission> Missions { get; private set; }
         public static void LoadMissionData()
         {
             var data = Main.ReadJsonFile<Dictionary<string, PlayerMission>>(Path.Combine("Assets", "MissionDatas.json"));
@@ -51,14 +51,14 @@ namespace StardropScroll.Content.Mission
             {
                 mission.ID = name;
             }
-            MissionProgress = new(data);
+            Missions = new(data);
         }
         public static void LoadData(Farmer player)
         {
             var data = player.modData;
-            foreach (var (name, m) in MissionProgress)
+            foreach (var (name, m) in Missions)
             {
-                if (data.TryGetValue(Key(name), out var info))
+                if (data.TryGetValue(MissionKey(name), out var info))
                 {
                     string[] infos = info.Split('.');
                     m.Current = int.Parse(infos[0]);
@@ -83,11 +83,23 @@ namespace StardropScroll.Content.Mission
                 return;
 
             var player = Game1.player;
-            player.modData[Key(m.ID)] = m.Data;
+            player.modData[MissionKey(m.ID)] = m.Data;
 
             if (!Context.IsMultiplayer || Context.IsMainPlayer)
                 return;
             Main.NetSend(m.Net, NetMessageID.Mission);
+        }
+        public static void Increase(string name, int amount = 1)
+        {
+            if (!Main.IsLocal)
+                return;
+            if (Missions.TryGetValue(name, out var mission))
+            {
+                mission.Current += amount;
+                Main.Log($"{name} increase by {amount}");
+                return;
+            }
+            Main.LogWarn("Error mission name");
         }
         public static void NetReceive(ModMessageReceivedEventArgs e)
         {
@@ -98,7 +110,22 @@ namespace StardropScroll.Content.Mission
                 return;
             }
             var m = e.ReadAs<NetMission>();
-            player!.modData[Key(m.id)] = m.data;
+            player!.modData[MissionKey(m.id)] = m.data;
+        }
+
+        /// <summary>
+        /// 无数据返回0级
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static int GetMissionLevel(this Farmer player, string name)
+        {
+            if (player.modData.TryGetValue(MissionKey(name), out var data))
+            {
+                return int.Parse(data.Split('.')[1]);
+            }
+            return 0;
         }
     }
 }

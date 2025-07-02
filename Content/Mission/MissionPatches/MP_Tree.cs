@@ -3,13 +3,17 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 using StardropScroll.Helper;
+using StardropScroll.IDs;
 using System.Reflection.Emit;
 
 namespace StardropScroll.Content.Mission.MissionPatches
 {
-    internal class MP_Tree
+    [HarmonyPatch]
+    public class MP_Tree
     {
-        public static IEnumerable<CodeInstruction> ModifyTreeDrop(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+        [HarmonyPatch(typeof(Tree), nameof(Tree.tickUpdate))]
+        [HarmonyTranspiler]
+        private static IEnumerable<CodeInstruction> ModifyTreeDrop(IEnumerable<CodeInstruction> instructions, ILGenerator il)
         {
             var codes = instructions.ToList();
             for (int i = 0; i < codes.Count; i++)
@@ -34,7 +38,9 @@ namespace StardropScroll.Content.Mission.MissionPatches
             var tile = tree.Tile.ToPoint();
             Farmer lastHitBy = Game1.GetPlayer(tree.lastPlayerToHit.Value, false) ?? Game1.MasterPlayer;
             int amount = 12 + ExtraWoodCalculator(tile, tree.treeType.Value);
-            amount += (int)lastHitBy.stats.Get("TreesChopped") * 10;
+            amount *= lastHitBy.GetMissionLevel(MissionID.CutTrees);
+            if (amount == 0)
+                return;
             Game1.createRadialDebris(tree.Location, 12, tile.X + (tree.shakeLeft.Value ? -4 : 4), tile.Y, amount, true, -1, false, null);
         }
         private static int ExtraWoodCalculator(Point tileLocation, string treeType)
