@@ -1,0 +1,10 @@
+﻿{
+  "Name": "Stardrop Scroll",
+  "Author": "Reits",
+  "Version": "1.0.0",
+  "Description": "IMBA献祭流",
+  "UniqueID": "Reits.StardropScroll",
+  "EntryDll": "StardropScroll.dll",
+  "MinimumApiVersion": "4.0.0"//,
+  //"UpdateKeys": [] //（可选）常用的更新键："Nexus:???", "Gtihub:user/repository", "Moddrop:???"
+}

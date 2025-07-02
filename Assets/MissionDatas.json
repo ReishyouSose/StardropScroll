@@ -1,0 +1,12 @@
+﻿{
+  "CutTrees": {
+    "target": 10,
+    "step": 10,
+    "max": 10
+  },
+  "CatchFish": {
+    "target": 10,
+    "step": 10,
+    "max": 10
+  }
+}
