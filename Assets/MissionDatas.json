@@ -68,5 +68,20 @@
     "target": 10,
     "step": 10,
     "max": 20
+  },
+  "PetAnimals": {
+    "target": 10,
+    "step": 10,
+    "max": 20
+  },
+  "HarvestMoss": {
+    "target": 10,
+    "step": 10,
+    "max": 20
+  },
+  "ClearWeeds": {
+    "target": 10,
+    "step": 10,
+    "max": 20
   }
 }

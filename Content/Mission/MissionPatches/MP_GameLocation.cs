@@ -5,6 +5,7 @@ using StardewValley.Monsters;
 using StardropScroll.Helper;
 using StardropScroll.IDs;
 using System.Reflection.Emit;
+using StardewO = StardewValley.Object;
 
 namespace StardropScroll.Content.Mission.MissionPatches
 {
@@ -112,7 +113,7 @@ namespace StardropScroll.Content.Mission.MissionPatches
             for (int i = 0; i < codes.Count; i++)
             {
                 var code = codes[i];
-                if (code.opcode == OpCodes.Callvirt && code.MatchMethod("set_ItemsForaged"))
+                if (code.opcode == OpCodes.Callvirt && code.Contains("set_ItemsForaged"))
                 {
                     codes.MissionIncrease(ref i, MissionID.ForageItems);
                     break;
@@ -130,7 +131,7 @@ namespace StardropScroll.Content.Mission.MissionPatches
             for (int i = 0; i < codes.Count; i++)
             {
                 var code = codes[i];
-                if (code.opcode != OpCodes.Callvirt || code.MatchMethod("Increament"))
+                if (code.opcode != OpCodes.Callvirt || code.Contains("Increament"))
                     continue;
                 codes.MissionIncrease(ref i, MissionID.CheckGarbages);
                 //添加新的垃圾桶战利品
@@ -156,6 +157,21 @@ namespace StardropScroll.Content.Mission.MissionPatches
                 MissionManager.Increase(MissionID.KillHardModeMonsters);
             }
             //额外掉落，不调用原版方法
+        }
+
+        [HarmonyPatch(nameof(GameLocation.removeObject))]
+        [HarmonyPostfix]
+        private static void RemoveObject(GameLocation __instance, Vector2 location, bool showDestroyedObject)
+        {
+            StardewO o;
+            __instance.objects.TryGetValue(location, out o);
+            if (o != null && (o.CanBeGrabbed || showDestroyedObject))
+            {
+                if (o.IsWeeds())
+                {
+                    MissionManager.Increase(MissionID.ClearWeeds);
+                }
+            }
         }
     }
 }

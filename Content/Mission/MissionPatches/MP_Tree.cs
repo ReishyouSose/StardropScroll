@@ -51,6 +51,25 @@ namespace StardropScroll.Content.Mission.MissionPatches
             return codes;
         }
 
+        [HarmonyPatch(nameof(Tree.performToolAction))]
+        [HarmonyTranspiler]
+        private static List<CodeInstruction> PerformToolAction(IEnumerable<CodeInstruction> instructions)
+        {
+            var codes = instructions.ToList();
+            for (int i = 0; i < codes.Count; i++)
+            {
+                var code = codes[i];
+                if (code.opcode != OpCodes.Ldfld || !code.Contains("hasMoss"))
+                    continue;
+                if (codes[i + 1].opcode != OpCodes.Ldc_I4_0)
+                    continue;
+                if (!codes[i + 2].Contains("set_Value"))
+                    continue;
+
+            }
+            return codes;
+        }
+
         private static void ExtraWoodDrop(Tree tree)
         {
             var tile = tree.Tile.ToPoint();
@@ -59,7 +78,7 @@ namespace StardropScroll.Content.Mission.MissionPatches
             amount *= lastHitBy.GetMissionLevel(MissionID.CutTrees);
             if (amount == 0)
                 return;
-            Game1.createRadialDebris(tree.Location, 12, tile.X + (tree.shakeLeft.Value ? -4 : 4), tile.Y, amount, true, -1, false, null);
+            ItemHelper.CreateDroppedItem(ItemID.Wood, new(tile.X + (tree.shakeLeft.Value ? -4 : 4), tile.Y), tree.Location);
         }
 
         private static int ExtraWoodCalculator(Point tileLocation, string treeType)

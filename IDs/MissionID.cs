@@ -47,5 +47,14 @@ namespace StardropScroll.IDs
         
         /// <summary>获取五彩碎片</summary>
         public const string ObtainPrismaticShards = nameof(ObtainPrismaticShards);  
+
+        /// <summary>抚摸动物</summary>
+        public const string PetAnimals = nameof(PetAnimals);
+
+        /// <summary>收获苔藓</summary>
+        public const string HarvestMoss = nameof(HarvestMoss);
+
+        /// <summary>清理杂草</summary>
+        public const string ClearWeeds = nameof(ClearWeeds);
     }
 }

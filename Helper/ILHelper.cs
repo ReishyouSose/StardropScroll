@@ -28,7 +28,7 @@ namespace StardropScroll.Helper
         /// <returns></returns>
         public static CodeInstruction Call<T>(string methodName, Type[] parameters = null, Type[] generics = null)
             => new(OpCodes.Call, AccessTools.Method(typeof(T), methodName, parameters, generics));
-        public static bool MatchMethod(this CodeInstruction code, string methodName)
+        public static bool Contains(this CodeInstruction code, string methodName)
             => code.operand.ToString().Contains(methodName);
         public static CodeInstruction Int(int value)
         {

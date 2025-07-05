@@ -11,6 +11,8 @@ namespace StardropScroll.Helper
 
         private static void Log(object message, LogLevel level)
         {
+            if (!Mod.config.DebugMode)
+                return;
             Mod.Monitor.Log("[StardropScroll] " + message.ToString(), level);
         }
         public static void Log(object message) => Log(message, LogLevel.Debug);
@@ -21,7 +23,7 @@ namespace StardropScroll.Helper
         {
             return Mod.Helper.Data.ReadJsonFile<T>(path);
         }
-        public static void WriteJsonFile<T>(string path,T data) where T : class
+        public static void WriteJsonFile<T>(string path, T data) where T : class
         {
             Mod.Helper.Data.WriteJsonFile(path, data);
         }
