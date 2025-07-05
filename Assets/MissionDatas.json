@@ -4,14 +4,69 @@
     "step": 10,
     "max": 10
   },
-  "MiningStones": {
+  "MineStones": {
     "target": 10,
     "step": 10,
     "max": 10
   },
-  "CatchFish": {
+  "PlantCrops": {
     "target": 10,
     "step": 10,
     "max": 10
+  },
+  "HoeDirts": {
+    "target": 10,
+    "step": 10,
+    "max": 10
+  },
+  "ForageItems": {
+    "target": 10,
+    "step": 10,
+    "max": 10
+  },
+  "CheckGarbages": {
+    "target": 10,
+    "step": 10,
+    "max": 10
+  },
+  "DigArtifactSpots": {
+    "target": 10,
+    "step": 10,
+    "max": 10
+  },
+  "CatchFishes": {
+    "target": 10,
+    "step": 10,
+    "max": 10
+  },
+  "CatchFishTreasures": {
+    "target": 10,
+    "step": 10,
+    "max": 20
+  },
+  "CatchGoldenFishTreasures": {
+    "target": 10,
+    "step": 10,
+    "max": 20
+  },
+  "GiveGifts": {
+    "target": 10,
+    "step": 10,
+    "max": 20
+  },
+  "KillMonsters": {
+    "target": 10,
+    "step": 10,
+    "max": 20
+  },
+  "KillHardModeMonsters": {
+    "target": 10,
+    "step": 10,
+    "max": 20
+  },
+  "ObtainPrismaticShards": {
+    "target": 10,
+    "step": 10,
+    "max": 20
   }
 }

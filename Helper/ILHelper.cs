@@ -28,5 +28,27 @@ namespace StardropScroll.Helper
         /// <returns></returns>
         public static CodeInstruction Call<T>(string methodName, Type[] parameters = null, Type[] generics = null)
             => new(OpCodes.Call, AccessTools.Method(typeof(T), methodName, parameters, generics));
+        public static bool MatchMethod(this CodeInstruction code, string methodName)
+            => code.operand.ToString().Contains(methodName);
+        public static CodeInstruction Int(int value)
+        {
+            if (0 <= value && value <= 8)
+            {
+                return new(value switch
+                {
+                    0 => OpCodes.Ldc_I4_0,
+                    1 => OpCodes.Ldc_I4_1,
+                    2 => OpCodes.Ldc_I4_2,
+                    3 => OpCodes.Ldc_I4_3,
+                    4 => OpCodes.Ldc_I4_4,
+                    5 => OpCodes.Ldc_I4_5,
+                    6 => OpCodes.Ldc_I4_6,
+                    7 => OpCodes.Ldc_I4_7,
+                    8 => OpCodes.Ldc_I4_8,
+                    _ => throw new Exception("Are u sure?")
+                });
+            }
+            return new(OpCodes.Ldc_I4, value);
+        }
     }
 }

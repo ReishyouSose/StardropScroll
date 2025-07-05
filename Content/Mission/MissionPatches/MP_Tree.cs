@@ -8,12 +8,12 @@ using System.Reflection.Emit;
 
 namespace StardropScroll.Content.Mission.MissionPatches
 {
-    [HarmonyPatch]
+    [HarmonyPatch(typeof(Tree))]
     public class MP_Tree
     {
-        [HarmonyPatch(typeof(Tree), nameof(Tree.tickUpdate))]
+        [HarmonyPatch(nameof(Tree.tickUpdate))]
         [HarmonyTranspiler]
-        private static IEnumerable<CodeInstruction> ModifyTreeDrop(IEnumerable<CodeInstruction> instructions, ILGenerator il)
+        private static IEnumerable<CodeInstruction> TickUpdate(IEnumerable<CodeInstruction> instructions, ILGenerator il)
         {
             var codes = instructions.ToList();
             for (int i = 0; i < codes.Count; i++)
@@ -33,6 +33,24 @@ namespace StardropScroll.Content.Mission.MissionPatches
             }
             return codes;
         }
+
+        [HarmonyPatch("performTreeFall")]
+        [HarmonyTranspiler]
+        private static List<CodeInstruction> PerformTreeFall(IEnumerable<CodeInstruction> instructions)
+        {
+            var codes = instructions.ToList();
+            for (int i = 0; i < codes.Count; i++)
+            {
+                var code = codes[i];
+                if (code.opcode == OpCodes.Callvirt && code.operand.ToString().Contains("Increment"))
+                {
+                    codes.MissionIncrease(ref i, MissionID.CutTrees);
+                    break;
+                }
+            }
+            return codes;
+        }
+
         private static void ExtraWoodDrop(Tree tree)
         {
             var tile = tree.Tile.ToPoint();
@@ -43,6 +61,7 @@ namespace StardropScroll.Content.Mission.MissionPatches
                 return;
             Game1.createRadialDebris(tree.Location, 12, tile.X + (tree.shakeLeft.Value ? -4 : 4), tile.Y, amount, true, -1, false, null);
         }
+
         private static int ExtraWoodCalculator(Point tileLocation, string treeType)
         {
             Random random = Utility.CreateRandom(Game1.uniqueIDForThisGame, Game1.stats.DaysPlayed, tileLocation.X * 7.0, tileLocation.Y * 11.0, 0.0);

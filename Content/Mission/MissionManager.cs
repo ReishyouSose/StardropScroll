@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using HarmonyLib;
+using Newtonsoft.Json;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardropScroll.Helper;
 using StardropScroll.IDs;
 using System.Collections.ObjectModel;
+using System.Reflection.Emit;
 using static StardropScroll.IDs.MissionID;
 
 namespace StardropScroll.Content.Mission
@@ -127,5 +129,18 @@ namespace StardropScroll.Content.Mission
             }
             return 0;
         }
+        private static CodeInstruction Call() => ILHelper.Call(AccessTools.Method(typeof(MissionManager), "Increase"));
+        public static void MissionIncrease(this List<CodeInstruction> codes, ref int index, string mission, int amount = 1)
+        {
+            List<CodeInstruction> list = new()
+            {
+                new(OpCodes .Ldstr, mission),
+                ILHelper.Int(amount),
+                Call()
+            };
+            codes.InsertRange(index + 1, list);
+            index += 3;
+        }
+
     }
 }
