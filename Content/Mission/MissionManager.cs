@@ -1,135 +1,162 @@
 ﻿using HarmonyLib;
 using Newtonsoft.Json;
-using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using StardewValley.Extensions;
 using StardropScroll.Helper;
 using StardropScroll.IDs;
-using System.Collections.ObjectModel;
 using System.Reflection.Emit;
-using static StardropScroll.IDs.MissionID;
 
 namespace StardropScroll.Content.Mission
 {
-    public class PlayerMission
+    public struct MissionData
     {
-        public string ID;
-
-        public int Current;
-
         [JsonProperty("target")]
         public int Target { get; set; }
-
-        public int Level;
-
-        [JsonProperty("step")]
-        public int Step { get; set; }
 
         [JsonProperty("max")]
         public int MaxLevel { get; set; }
 
-        public string Data => $"{Current}.{Level}";
-
-        public bool Completed => Level >= MaxLevel;
-        public NetMission Net => new() { id = ID, data = Data };
+        [JsonProperty("step")]
+        public int Step { get; set; }
     }
-    public struct NetMission
+    public class Mission
     {
-        public string id;
-        public string data;
+        public string Name { get; set; }
+
+        public int Current { get; set; }
+
+        public int Level { get; set; }
+
+        [JsonIgnore]
+        public int Target;
+
+        [JsonIgnore]
+        public MissionData Data { get; private set; }
+
+        [JsonIgnore]
+        public bool Completed => Level >= Data.MaxLevel;
+
+        [JsonIgnore]
+        public bool CanSubmit => Current > Target;
+
+        public void LoadData(MissionData data)
+        {
+            Data = data;
+            GetTarget();
+        }
+
+        public void NextState()
+        {
+            Current -= Target;
+            Level++;
+            GetTarget();
+        }
+
+        public void GetTarget() => Target = Data.Target + Level + Data.Step;
     }
     public static class MissionManager
     {
-        public static ReadOnlyDictionary<string, PlayerMission> Missions { get; private set; }
+        public static Dictionary<string, Mission> Missions { get; private set; }
+        private static Dictionary<string, int> missionIncrease;
+        private static Dictionary<string, MissionData> missionDatas;
         public static void LoadMissionData()
         {
-            var data = Main.ReadJsonFile<Dictionary<string, PlayerMission>>(Path.Combine("Assets", "MissionDatas.json"));
-            if (data == null)
-            {
+            missionIncrease = new();
+            missionDatas = Main.ReadJsonFile<Dictionary<string, MissionData>>(Path.Combine("Assets", "MissionDatas.json"));
+            if (missionDatas == null)
                 Main.LogError("Failed to load Mission Data!");
-                return;
-            }
-            foreach (var (name, mission) in data)
-            {
-                mission.ID = name;
-            }
-            Missions = new(data);
         }
-        public static void LoadData(Farmer player)
-        {
-            var data = player.modData;
-            foreach (var (name, m) in Missions)
-            {
-                if (data.TryGetValue(MissionKey(name), out var info))
-                {
-                    string[] infos = info.Split('.');
-                    m.Current = int.Parse(infos[0]);
-                    m.Level = int.Parse(infos[1]);
-                }
-                else
-                {
-                    m.Current = 0;
-                    m.Level = 0;
-                }
-                m.Target += m.Level * m.Step;
-            }
-            Main.WriteJsonFile(Path.Combine("Assets", "Stats.json"), Game1.player.stats.Values);
-        }
-        public static void SubmitMission(PlayerMission m)
-        {
-            if (m.Current < m.Target || m.Completed)
-                return;
-            m.Current -= m.Target;
-            m.Level++;
-            if (Context.IsMainPlayer || !Context.IsMultiplayer)
-                return;
 
-            var player = Game1.player;
-            player.modData[MissionKey(m.ID)] = m.Data;
-
-            if (!Context.IsMultiplayer || Context.IsMainPlayer)
-                return;
-            Main.NetSend(m.Net, NetMessageID.Mission);
-        }
-        public static void Increase(string name, int amount = 1)
+        public static void LoadData()
         {
-            if (!Main.IsLocal)
-                return;
-            if (Missions.TryGetValue(name, out var mission))
+            Missions = Main.LoadData<Dictionary<string, Mission>>(Main.UniqueID + ".Missions") ?? new();
+            foreach (var (name, data) in missionDatas)
             {
-                mission.Current += amount;
-                Main.Log($"{name} increase by {amount}");
-                return;
+                if (!Missions.TryGetValue(name, out var mission))
+                    Missions.Add(name, mission = new() { Name = name });
+                mission.LoadData(data);
             }
-            Main.LogWarn("Error mission name");
-        }
-        public static void NetReceive(ModMessageReceivedEventArgs e)
-        {
-            Farmer? player = Game1.GetPlayer(e.FromPlayerID);
-            if (player == null)
-            {
-                Main.LogWarn($"Receive mission data but player id {e.FromPlayerID} error");
-                return;
-            }
-            var m = e.ReadAs<NetMission>();
-            player!.modData[MissionKey(m.id)] = m.data;
         }
 
         /// <summary>
-        /// 无数据返回0级
+        /// add为0则是升级数据包
         /// </summary>
-        /// <param name="player"></param>
-        /// <param name="name"></param>
+        /// <param name="m"></param>
+        /// <param name="add"></param>
         /// <returns></returns>
-        public static int GetMissionLevel(this Farmer player, string name)
+        private static string MissionPack(string mission, int add = 0) => $"{mission}.{add}";
+        public static bool SubmitMission(Mission m)
         {
-            if (player.modData.TryGetValue(MissionKey(name), out var data))
-            {
-                return int.Parse(data.Split('.')[1]);
-            }
-            return 0;
+            if (!m.CanSubmit)
+                return false;
+            if (Game1.IsMasterGame)
+                m.NextState();
+            Main.NetSend(MissionPack(m.Name), NetMessageID.Mission);
+            return true;
         }
-        private static CodeInstruction Call() => ILHelper.Call(AccessTools.Method(typeof(MissionManager), "Increase"));
+
+        public static void NetReceive(ModMessageReceivedEventArgs e)
+        {
+            string[] info = e.ReadAs<string>().Split('.');
+            string name = info[0];
+            int amount = int.Parse(info[1]);
+            bool master = Main.IsMaster;
+            Mission m = Missions[name];
+            if (amount == 0)
+            {
+                if (master)
+                    SubmitMission(m);
+                else
+                    m.NextState();
+                return;
+            }
+            if (master)
+                Increase(name, amount);
+            else
+                m.Current += amount;
+        }
+
+        public static void Increase(string name, int amount = 1)
+        {
+            if (!missionDatas.ContainsKey(name))
+            {
+                Main.LogWarn("Error mission name");
+                return;
+            }
+            missionIncrease.TryGetValue(name, out int add);
+            missionIncrease[name] = add + amount;
+        }
+
+        public static void CheckIncrease(object? sender, OneSecondUpdateTickedEventArgs e)
+        {
+            if (!missionIncrease.Any())
+                return;
+            if (Main.IsMaster)
+            {
+                foreach (var (name, add) in missionIncrease)
+                {
+                    Missions[name].Current += add;
+                    Main.NetSend(MissionPack(name, add), NetMessageID.Mission);
+                }
+            }
+            else
+            {
+                foreach (var (name, add) in missionIncrease)
+                {
+                    Main.NetSend(MissionPack(name, add), NetMessageID.Mission);
+                }
+            }
+            missionIncrease.Clear();
+        }
+
+        public static int GetLevel(string name)
+        {
+            if (!Missions.TryGetValue(name, out var m))
+                Main.LogWarn("Error mission name!");
+            return m.Level;
+        }
+        private static CodeInstruction Call() => ILHelper.Call(typeof(MissionManager), "Increase");
         public static void MissionIncrease(this List<CodeInstruction> codes, ref int index, string mission, int amount = 1)
         {
             List<CodeInstruction> list = new()
@@ -142,5 +169,19 @@ namespace StardropScroll.Content.Mission
             index += 3;
         }
 
+        public static int GetBonusTimes(int level, double init, double fix = 0.95)
+        {
+            Random r = Random.Shared;
+            int amount = 0;
+            for (int i = 0; i < level; i++)
+            {
+                if (r.NextBool(init))
+                {
+                    amount++;
+                    init *= fix;
+                }
+            }
+            return amount;
+        }
     }
 }

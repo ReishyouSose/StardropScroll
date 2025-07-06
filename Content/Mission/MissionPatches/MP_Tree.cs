@@ -26,7 +26,7 @@ namespace StardropScroll.Content.Mission.MissionPatches
                 var list = new List<CodeInstruction>()
                 {
                     ILHelper.Instance(),
-                    ILHelper.Call<MP_Tree>(nameof(ExtraWoodDrop)),
+                    ILHelper.Call(typeof( MP_Tree),(nameof(ExtraWoodDrop))),
                 };
                 codes.InsertRange(i, list);
                 break;
@@ -72,13 +72,13 @@ namespace StardropScroll.Content.Mission.MissionPatches
 
         private static void ExtraWoodDrop(Tree tree)
         {
-            var tile = tree.Tile.ToPoint();
-            Farmer lastHitBy = Game1.GetPlayer(tree.lastPlayerToHit.Value, false) ?? Game1.MasterPlayer;
-            int amount = 12 + ExtraWoodCalculator(tile, tree.treeType.Value);
-            amount *= lastHitBy.GetMissionLevel(MissionID.CutTrees);
-            if (amount == 0)
+            int level = MissionManager.GetLevel(MissionID.CutTrees);
+            if (level <= 0)
                 return;
-            ItemHelper.CreateDroppedItem(ItemID.Wood, new(tile.X + (tree.shakeLeft.Value ? -4 : 4), tile.Y), tree.Location);
+            var tile = tree.Tile.ToPoint();
+            int amount = 12 + ExtraWoodCalculator(tile, tree.treeType.Value);
+            amount *= MissionManager.GetBonusTimes(level, 0.9);
+            ItemHelper.CreateDroppedItem(ItemID.Wood, new(tile.X + (tree.shakeLeft.Value ? -4 : 4), tile.Y), tree.Location, amount);
         }
 
         private static int ExtraWoodCalculator(Point tileLocation, string treeType)

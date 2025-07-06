@@ -83,5 +83,10 @@
     "target": 10,
     "step": 10,
     "max": 20
+  },
+  "PlantTrees": {
+    "target": 10,
+    "step": 10,
+    "max": 20
   }
 }

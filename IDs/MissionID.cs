@@ -56,5 +56,8 @@ namespace StardropScroll.IDs
 
         /// <summary>清理杂草</summary>
         public const string ClearWeeds = nameof(ClearWeeds);
+
+        /// <summary>种树</summary>
+        public const string PlantTrees= nameof(PlantTrees);
     }
 }

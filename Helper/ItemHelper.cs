@@ -4,7 +4,7 @@ using StardropScroll.IDs;
 
 namespace StardropScroll.Helper
 {
-    public static class ItemHelper
+    public class ItemHelper
     {
         /// <summary>
         /// 
@@ -20,6 +20,10 @@ namespace StardropScroll.Helper
         {
             Item item = CreateItem(uniqueID, stack, quality);
             Game1.createItemDebris(item, postion, 4, location);
+        }
+        public static void CreateDroppedItem(string uniqueID, int tileX, int tileY, GameLocation location = null, int stack = 1, int quality = QualityID.Common)
+        {
+            CreateDroppedItem(uniqueID, new(tileX * 64 + 32, tileY * 64 + 32), location, stack, quality);
         }
     }
 }

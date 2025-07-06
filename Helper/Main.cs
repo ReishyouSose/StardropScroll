@@ -52,5 +52,6 @@ namespace StardropScroll.Helper
             Mod.Helper.Multiplayer.SendMessage(message, messageID.ToString(), receiveMods, receivePlayer);
         }
         public static bool IsLocal => Game1.player.IsLocalPlayer;
+        public static bool IsMaster => Game1.IsMasterGame;
     }
 }

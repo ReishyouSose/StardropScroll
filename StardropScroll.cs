@@ -25,6 +25,8 @@ namespace StardropScroll
             helper.Events.GameLoop.GameLaunched += GameLoop_GameLaunched;
             helper.Events.GameLoop.SaveLoaded += GameLoop_SaveLoaded;
             helper.Events.Multiplayer.ModMessageReceived += Multiplayer_ModMessageReceived;
+            helper.Events.GameLoop.OneSecondUpdateTicked +=  MissionManager.CheckIncrease;
+            ;
         }
 
         private void Multiplayer_ModMessageReceived(object? sender, ModMessageReceivedEventArgs e)
@@ -47,7 +49,7 @@ namespace StardropScroll
 
         private void GameLoop_SaveLoaded(object? sender, SaveLoadedEventArgs e)
         {
-            MissionManager.LoadData(Game1.player);
+            MissionManager.LoadData();
         }
 
         private void GameLoop_GameLaunched(object? sender, GameLaunchedEventArgs e)
