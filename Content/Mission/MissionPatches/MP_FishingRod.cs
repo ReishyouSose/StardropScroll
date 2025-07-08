@@ -19,5 +19,6 @@ namespace StardropScroll.Content.Mission.MissionPatches
                     MissionID.CatchGoldenFishTreasures : MissionID.CatchFishTreasures);
             }
         }
+
     }
 }

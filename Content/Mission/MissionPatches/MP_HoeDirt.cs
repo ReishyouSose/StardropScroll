@@ -22,19 +22,7 @@ namespace StardropScroll.Content.Mission.MissionPatches
         [HarmonyPostfix]
         private static void DayUpdate(HoeDirt __instance)
         {
-            int level = MissionManager.GetLevel(MissionID.PlantCrops);
-            if (level <= 0)
-                return;
-            var dirt = __instance;
-            if (dirt.crop == null)
-                return;
-            bool ignore = dirt.hasPaddyCrop() && dirt.paddyWaterCheck(true);
-            if (ignore || dirt.state.Value == 1)
-            {
-                int amount = MissionManager.GetBonusTimes(level, 0.75, 0.9);
-                for (int i = 0; i < amount; i++)
-                    dirt.crop.newDay(1);
-            }
+            MissionBonus.ExtraGrow(__instance);
         }
     }
 }

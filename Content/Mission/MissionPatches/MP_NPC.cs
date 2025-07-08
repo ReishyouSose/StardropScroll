@@ -35,5 +35,6 @@ namespace StardropScroll.Content.Mission.MissionPatches
                 }
             }
         }
+
     }
 }

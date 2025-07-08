@@ -3,39 +3,32 @@ using StardewValley;
 using StardropScroll.Helper;
 using StardropScroll.IDs;
 using System.Reflection.Emit;
-using SObject = StardewValley.Object;
+using StardewO = StardewValley.Object;
 
 namespace StardropScroll.Content.Mission.MissionPatches
 {
-    [HarmonyPatch(typeof(SObject))]
+    [HarmonyPatch(typeof(StardewO))]
     public static class MP_Object
     {
-        [HarmonyPatch(nameof(SObject.placementAction))]
-        [HarmonyTranspiler]
-        private static List<CodeInstruction> PlacementAction(IEnumerable<CodeInstruction> instructions)
+        [HarmonyPatch(nameof(StardewO.placementAction))]
+        [HarmonyPostfix]
+        private static void PlacementAction(StardewO __instance,GameLocation location,int x,int y,Farmer who, bool __result)
         {
-            var codes = instructions.ToList();
-            for (int i = 0; i < codes.Count; i++)
-            {
-                var code = codes[i];
-                if (code.opcode != OpCodes.Ldstr || code.Contains("wildtreesplanted"))
-                    continue;
-                bool find = false;
-                for (int j = i + 1; j < codes.Count; j++)
-                {
-                    code = codes[j];
-                    if (code.opcode != OpCodes.Callvirt || code.Contains("Increment"))
-                        continue;
-                    if (codes[j + 1].opcode != OpCodes.Pop)
-                        continue;
-                    codes.MissionIncrease(ref j, MissionID.PlantTrees);
-                    find = true;
-                    break;
-                }
-                if (find)
-                    break;
-            }
-            return codes;
+            if (!__result)
+                return;
+            if (__instance.IsWildTreeSapling())
+                MissionManager.Increase(MissionID.PlantWildTrees);
+            if (__instance.IsFruitTreeSapling())
+                MissionManager.Increase(MissionID.PlantWildTrees);
+        }
+
+        [HarmonyPatch("getPriceAfterMultipliers")]
+        [HarmonyPostfix]
+        private static void GetPriceAfterMultipliers(StardewO __instance, float startPrice, ref float __result)
+        {
+            float multiplier = __result / startPrice;
+            MissionBonus.ExtraItemValue(__instance, ref multiplier);
+            __result = startPrice * multiplier;
         }
     }
 }

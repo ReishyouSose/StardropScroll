@@ -1,5 +1,6 @@
 ﻿using StardewModdingAPI;
 using StardewValley;
+using StardropScroll.Config;
 using StardropScroll.IDs;
 
 namespace StardropScroll.Helper
@@ -53,5 +54,9 @@ namespace StardropScroll.Helper
         }
         public static bool IsLocal => Game1.player.IsLocalPlayer;
         public static bool IsMaster => Game1.IsMasterGame;
+
+        /// <summary>已游玩天数</summary>
+        public static uint DayPlays => Game1.stats.DaysPlayed;
+        public static ModConfig Config => Mod.config;
     }
 }

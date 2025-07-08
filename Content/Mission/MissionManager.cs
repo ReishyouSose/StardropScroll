@@ -169,17 +169,21 @@ namespace StardropScroll.Content.Mission
             index += 3;
         }
 
-        public static int GetBonusTimes(int level, double init, double fix = 0.95)
+        public static int GetBonusTimes(int level, double init, double fix = 0.95, Random r = null, bool failureBreak = false)
         {
-            Random r = Random.Shared;
+            r ??= Random.Shared;
             int amount = 0;
+            bool successOnce = false;
             for (int i = 0; i < level; i++)
             {
                 if (r.NextBool(init))
                 {
                     amount++;
                     init *= fix;
+                    successOnce = true;
                 }
+                else if (failureBreak && successOnce)
+                    break;
             }
             return amount;
         }

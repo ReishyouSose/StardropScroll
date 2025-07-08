@@ -681,7 +681,7 @@
         public const string StrangeCapsule = "(BC)96";
 
         /// <summary>季节性植物</summary>
-        public const string SeasonalPlant_BC184="(BC)184";
+        public const string SeasonalPlant_BC184 = "(BC)184";
 
         /// <summary>家居植物</summary>
         public const string HousePlant_BC1 = "(BC)1";
@@ -705,37 +705,37 @@
         public const string SeasonalDecor = "(BC)48";
 
         /// <summary>季节性植物</summary>
-        public const string SeasonalPlant_BC204="(BC)204";
+        public const string SeasonalPlant_BC204 = "(BC)204";
 
         /// <summary>季节性植物</summary>
-        public const string SeasonalPlant_BC200="(BC)200";
+        public const string SeasonalPlant_BC200 = "(BC)200";
 
         /// <summary>季节性植物</summary>
-        public const string SeasonalPlant_BC196="(BC)196";
+        public const string SeasonalPlant_BC196 = "(BC)196";
 
         /// <summary>季节性植物</summary>
-        public const string SeasonalPlant_BC192="(BC)192";
+        public const string SeasonalPlant_BC192 = "(BC)192";
 
         /// <summary>季节性植物</summary>
-        public const string SeasonalPlant_BC188="(BC)188";
+        public const string SeasonalPlant_BC188 = "(BC)188";
 
         /// <summary>家居植物</summary>
-        public const string HousePlant_BC2="(BC)2";
+        public const string HousePlant_BC2 = "(BC)2";
 
         /// <summary>家居植物</summary>
-        public const string HousePlant_BC3="(BC)3";
+        public const string HousePlant_BC3 = "(BC)3";
 
         /// <summary>家居植物</summary>
-        public const string HousePlant_BC4="(BC)4";
+        public const string HousePlant_BC4 = "(BC)4";
 
         /// <summary>家居植物</summary>
-        public const string HousePlant_BC5="(BC)5";
+        public const string HousePlant_BC5 = "(BC)5";
 
         /// <summary>家居植物</summary>
-        public const string HousePlant_BC6="(BC)6";
+        public const string HousePlant_BC6 = "(BC)6";
 
         /// <summary>家居植物</summary>
-        public const string HousePlant_BC7="(BC)7";
+        public const string HousePlant_BC7 = "(BC)7";
 
         /// <summary>小手鼓</summary>
         public const string Bongo = "(BC)75";
@@ -753,28 +753,28 @@
         public const string Obelisk = "(BC)29";
 
         /// <summary>无尽财富之雕像</summary>
-        public const string StatueOfEndlessFortune= "(BC)127";
+        public const string StatueOfEndlessFortune = "(BC)127";
 
         /// <summary>木桶</summary>
-        public const string Barrel_BC262="(BC)262";
+        public const string Barrel_BC262 = "(BC)262";
 
         /// <summary>木桶</summary>
-        public const string Barrel_BC174="(BC)174";
+        public const string Barrel_BC174 = "(BC)174";
 
         /// <summary>木桶</summary>
         public const string Cask = "(BC)163";
 
         /// <summary>木桶</summary>
-        public const string Barrel_BC124="(BC)124";
+        public const string Barrel_BC124 = "(BC)124";
 
         /// <summary>木桶</summary>
-        public const string Barrel_BC122="(BC)122";
+        public const string Barrel_BC122 = "(BC)122";
 
         /// <summary>木桶</summary>
-        public const string Barrel_BC120="(BC)120";
+        public const string Barrel_BC120 = "(BC)120";
 
         /// <summary>木桶</summary>
-        public const string Barrel_BC118="(BC)118";
+        public const string Barrel_BC118 = "(BC)118";
 
         /// <summary>木头火炬</summary>
         public const string WoodenBrazier = "(BC)143";
@@ -795,22 +795,22 @@
         public const string DeadTree = "(BC)70";
 
         /// <summary>木箱</summary>
-        public const string Crate_BC263="(BC)263";
+        public const string Crate_BC263 = "(BC)263";
 
         /// <summary>木箱</summary>
-        public const string Crate_BC175="(BC)175";
+        public const string Crate_BC175 = "(BC)175";
 
         /// <summary>木箱</summary>
-        public const string Crate_BC125="(BC)125";
+        public const string Crate_BC125 = "(BC)125";
 
         /// <summary>木箱</summary>
-        public const string Crate_BC123="(BC)123";
+        public const string Crate_BC123 = "(BC)123";
 
         /// <summary>木箱</summary>
-        public const string Crate_BC121="(BC)121";
+        public const string Crate_BC121 = "(BC)121";
 
         /// <summary>木箱</summary>
-        public const string Crate_BC119="(BC)119";
+        public const string Crate_BC119 = "(BC)119";
 
         /// <summary>木牌</summary>
         public const string WoodSign = "(BC)37";
@@ -818,11 +818,11 @@
         /// <summary>木灯柱</summary>
         public const string WoodLampPost = "(BC)152";
 
-  /// <summary>木椅</summary>
-public const string WoodChair_BC27="(BC)27";
+        /// <summary>木椅</summary>
+        public const string WoodChair_BC27 = "(BC)27";
 
         /// <summary>木椅</summary>
-        public const string WoodChair_BC26="(BC)26";
+        public const string WoodChair_BC26 = "(BC)26";
 
         /// <summary>木桶火炬</summary>
         public const string BarrelBrazier = "(BC)150";
@@ -900,7 +900,7 @@ public const string WoodChair_BC27="(BC)27";
         public const string Sprinkler = "(O)599";
 
         /// <summary>真正完美的雕像</summary>
-        public const string StatueOfTruePerfection= "(BC)280";
+        public const string StatueOfTruePerfection = "(BC)280";
 
         /// <summary>相机</summary>
         public const string Camera = "(BC)106";
@@ -912,28 +912,28 @@ public const string WoodChair_BC27="(BC)27";
         public const string Telephone = "(BC)214";
 
         /// <summary>珍奇乌鸦</summary>
-        public const string Rarecrow_BC140="(BC)140";
+        public const string Rarecrow_BC140 = "(BC)140";
 
         /// <summary>珍奇乌鸦</summary>
-        public const string Rarecrow_BC139="(BC)139";
+        public const string Rarecrow_BC139 = "(BC)139";
 
         /// <summary>珍奇乌鸦</summary>
-        public const string Rarecrow_BC138="(BC)138";
+        public const string Rarecrow_BC138 = "(BC)138";
 
         /// <summary>珍奇乌鸦</summary>
-        public const string Rarecrow_BC137="(BC)137";
+        public const string Rarecrow_BC137 = "(BC)137";
 
         /// <summary>珍奇乌鸦</summary>
-        public const string Rarecrow_BC136="(BC)136";
+        public const string Rarecrow_BC136 = "(BC)136";
 
         /// <summary>珍奇乌鸦</summary>
-        public const string Rarecrow_BC126="(BC)126";
+        public const string Rarecrow_BC126 = "(BC)126";
 
         /// <summary>珍奇乌鸦</summary>
-        public const string Rarecrow_BC113="(BC)113";
+        public const string Rarecrow_BC113 = "(BC)113";
 
         /// <summary>珍奇乌鸦</summary>
-        public const string Rarecrow_BC110="(BC)110";
+        public const string Rarecrow_BC110 = "(BC)110";
 
         /// <summary>矮人之王雕像</summary>
         public const string StatueOfTheDwarfKing = "(BC)StatueOfTheDwarfKing";
@@ -957,10 +957,10 @@ public const string WoodChair_BC27="(BC)27";
         public const string StoneSign = "(BC)38";
 
         /// <summary>石猫头鹰</summary>
-        public const string StoneOwl_BC54="(BC)54";
+        public const string StoneOwl_BC54 = "(BC)54";
 
         /// <summary>石猫头鹰</summary>
-        public const string StoneOwl_BC95="(BC)95";
+        public const string StoneOwl_BC95 = "(BC)95";
 
         /// <summary>石祝尼魔</summary>
         public const string StoneJunimo = "(BC)55";
@@ -987,7 +987,7 @@ public const string WoodChair_BC27="(BC)27";
         public const string StatueOfBlessings = "(BC)StatueOfBlessings";
 
         /// <summary>祝尼魔赛车街机系统</summary>
-        public const string JunimoKartArcadeSystem= "(BC)159";
+        public const string JunimoKartArcadeSystem = "(BC)159";
 
         /// <summary>祝尼魔箱</summary>
         public const string JunimoChest = "(BC)256";
@@ -1011,16 +1011,16 @@ public const string WoodChair_BC27="(BC)27";
         public const string GardenPot = "(BC)62";
 
         /// <summary>船标</summary>
-        public const string SignOfTheVessel= "(BC)34";
+        public const string SignOfTheVessel = "(BC)34";
 
         /// <summary>自动采集器</summary>
-        public const string AutoGrabber= "(BC)165";
+        public const string AutoGrabber = "(BC)165";
 
-  /// <summary>自动抚摸机</summary>
-public const string AutoPetter= "(BC)272";
+        /// <summary>自动抚摸机</summary>
+        public const string AutoPetter = "(BC)272";
 
-  /// <summary>罐头瓶</summary>
-public const string PreservesJar = "(BC)15";
+        /// <summary>罐头瓶</summary>
+        public const string PreservesJar = "(BC)15";
 
         /// <summary>缝纫机</summary>
         public const string SewingMachine = "(BC)247";
@@ -1038,13 +1038,13 @@ public const string PreservesJar = "(BC)15";
         public const string RedCanes = "(BC)43";
 
         /// <summary>篝火</summary>
-        public const string Campfire_BC278="(BC)278";
+        public const string Campfire_BC278 = "(BC)278";
 
         /// <summary>篝火 这个有配方</summary>
-        public const string Campfire_BC146="(BC)146";
+        public const string Campfire_BC146 = "(BC)146";
 
         /// <summary>草原之王街机系统</summary>
-        public const string PrairieKingArcadeSystem= "(BC)141";
+        public const string PrairieKingArcadeSystem = "(BC)141";
 
         /// <summary>草坪火烈鸟</summary>
         public const string LawnFlamingo = "(BC)36";
@@ -1065,7 +1065,7 @@ public const string PreservesJar = "(BC)15";
         public const string BeeHouse = "(BC)10";
 
         /// <summary>被诅咒的P.K街机系统</summary>
-        public const string CursedPKArcadeSystem= "(BC)219";
+        public const string CursedPKArcadeSystem = "(BC)219";
 
         /// <summary>装甲</summary>
         public const string SuitOfArmor = "(BC)33";
@@ -1080,31 +1080,31 @@ public const string PreservesJar = "(BC)15";
         public const string DecorativeSpears = "(BC)76";
 
         /// <summary>邪恶雕像</summary>
-        public const string WickedStatue_BC84="(BC)84";
+        public const string WickedStatue_BC84 = "(BC)84";
 
         /// <summary>邪恶雕像</summary>
-        public const string WickedStatue_BC83="(BC)83";
+        public const string WickedStatue_BC83 = "(BC)83";
 
         /// <summary>避雷针</summary>
         public const string LightningRod = "(BC)9";
 
         /// <summary>迷你锻造台</summary>
-        public const string MiniForge= "(BC)MiniForge";
+        public const string MiniForge = "(BC)MiniForge";
 
-  /// <summary>迷你点唱机</summary>
-public const string MiniJukebox= "(BC)209";
+        /// <summary>迷你点唱机</summary>
+        public const string MiniJukebox = "(BC)209";
 
-  /// <summary>迷你图腾尖塔</summary>
-public const string MiniObelisk= "(BC)238";
+        /// <summary>迷你图腾尖塔</summary>
+        public const string MiniObelisk = "(BC)238";
 
-  /// <summary>迷你出货箱</summary>
-public const string MiniShippingBin = "(BC)248";
+        /// <summary>迷你出货箱</summary>
+        public const string MiniShippingBin = "(BC)248";
 
         /// <summary>迷你冰箱</summary>
-        public const string MiniFridge= "(BC)216";
+        public const string MiniFridge = "(BC)216";
 
-  /// <summary>远古桌子</summary>
-public const string AncientTable = "(BC)66";
+        /// <summary>远古桌子</summary>
+        public const string AncientTable = "(BC)66";
 
         /// <summary>远古凳子</summary>
         public const string AncientStool = "(BC)67";
@@ -1122,10 +1122,10 @@ public const string AncientTable = "(BC)66";
         public const string DriedSunflowers = "(BC)112";
 
         /// <summary>门</summary>
-        public const string Door_Vertical="(BC)80";
+        public const string Door_Vertical = "(BC)80";
 
         /// <summary>门</summary>
-        public const string Door_Horizen="(BC)79";
+        public const string Door_Horizen = "(BC)79";
 
         /// <summary>镂空火炬</summary>
         public const string CarvedBrazier = "(BC)148";
@@ -1139,8 +1139,8 @@ public const string AncientTable = "(BC)66";
         /// <summary>铁灯柱</summary>
         public const string IronLamppost = "(BC)153";
 
-  /// <summary>铁围栏</summary>
-public const string IronFence = "(O)324";
+        /// <summary>铁围栏</summary>
+        public const string IronFence = "(O)324";
 
         /// <summary>金制火炬</summary>
         public const string GoldBrazier = "(BC)145";
@@ -1164,7 +1164,7 @@ public const string IronFence = "(O)324";
         public const string BaitMaker = "(BC)BaitMaker";
 
         /// <summary>鸡雕像</summary>
-        public const string ChickenStatue_BC31="(BC)31";
+        public const string ChickenStatue_BC31 = "(BC)31";
 
         /// <summary>鸵鸟孵化器</summary>
         public const string OstrichIncubator = "(BC)254";
@@ -1281,10 +1281,10 @@ public const string IronFence = "(O)324";
         public const string RedPlate = "(O)230";
 
         /// <summary>海之菜肴</summary>
-        public const string DishOfTheSea= "(O)242";
+        public const string DishOfTheSea = "(O)242";
 
-  /// <summary>救生汉堡</summary>
-public const string SurvivalBurger = "(O)241";
+        /// <summary>救生汉堡</summary>
+        public const string SurvivalBurger = "(O)241";
 
         /// <summary>农夫午餐</summary>
         public const string FarmersLunch = "(O)240";
@@ -1635,7 +1635,7 @@ public const string SurvivalBurger = "(O)241";
         public const string RustyCog = "(O)112";
 
         /// <summary>鸡雕像</summary>
-        public const string ChickenStatue_O113="(O)113";
+        public const string ChickenStatue_O113 = "(O)113";
 
         /// <summary>古代种子</summary>
         public const string AncientSeed = "(O)114";
@@ -1857,13 +1857,13 @@ public const string SurvivalBurger = "(O)241";
         public const string QualityRetainingSoil = "(O)371";
 
         /// <summary>生长激素</summary>
-        public const string SpeedGro= "(O)465";
+        public const string SpeedGro = "(O)465";
 
-  /// <summary>高级生长激素</summary>
-public const string DeluxeSpeedGro = "(O)466";
+        /// <summary>高级生长激素</summary>
+        public const string DeluxeSpeedGro = "(O)466";
 
-  /// <summary>鱼饵</summary>
-public const string Bait = "(O)685";
+        /// <summary>鱼饵</summary>
+        public const string Bait = "(O)685";
 
         /// <summary>旋式鱼饵</summary>
         public const string Spinner = "(O)686";
@@ -1874,8 +1874,8 @@ public const string Bait = "(O)685";
         /// <summary>顶级生长激素</summary>
         public const string HyperSpeedGro = "(O)918";
 
-  /// <summary>魔法鱼饵</summary>
-public const string MagicBait = "(O)908";
+        /// <summary>魔法鱼饵</summary>
+        public const string MagicBait = "(O)908";
 
         /// <summary>优质浮标</summary>
         public const string QualityBobber = "(O)877";
@@ -2597,8 +2597,8 @@ public const string MagicBait = "(O)908";
         /// <summary>雌鮟鱇鱼 Ms.Angler</summary>
         public const string MsAnglerFish = "(O)899";
 
-  /// <summary>绯红鱼之子</summary>
-public const string SonofCrimsonfish = "(O)898";
+        /// <summary>绯红鱼之子</summary>
+        public const string SonofCrimsonfish = "(O)898";
 
         /// <summary>蓝铁饼鱼</summary>
         public const string BlueDiscus = "(O)838";
@@ -2649,10 +2649,10 @@ public const string SonofCrimsonfish = "(O)898";
         public const string Oil = "(O)247";
 
         /// <summary>传送图腾：沙漠</summary>
-        public const string WarpTotemDesert= "(O)261";
+        public const string WarpTotemDesert = "(O)261";
 
-  /// <summary>古物宝藏</summary>
-public const string ArtifactTrove = "(O)275";
+        /// <summary>古物宝藏</summary>
+        public const string ArtifactTrove = "(O)275";
 
         /// <summary>枯萎的花束</summary>
         public const string WiltedBouquet = "(O)277";
@@ -2727,22 +2727,22 @@ public const string ArtifactTrove = "(O)275";
         public const string RainTotem = "(O)681";
 
         /// <summary>传送图腾：农场</summary>
-        public const string WarpTotemFarm= "(O)688";
+        public const string WarpTotemFarm = "(O)688";
 
-  /// <summary>传送图腾：山岭</summary>
-public const string WarpTotemMountains= "(O)689";
+        /// <summary>传送图腾：山岭</summary>
+        public const string WarpTotemMountains = "(O)689";
 
-  /// <summary>传送图腾：海滩</summary>
-public const string WarpTotemBeach= "(O)690";
+        /// <summary>传送图腾：海滩</summary>
+        public const string WarpTotemBeach = "(O)690";
 
-  /// <summary>蟹笼</summary>
-public const string CrabPot = "(O)710";
-
-        /// <summary>腐烂的植物</summary>
-        public const string RottenPlant_O747="(O)747";
+        /// <summary>蟹笼</summary>
+        public const string CrabPot = "(O)710";
 
         /// <summary>腐烂的植物</summary>
-        public const string RottenPlant_O748="(O)748";
+        public const string RottenPlant_O747 = "(O)747";
+
+        /// <summary>腐烂的植物</summary>
+        public const string RottenPlant_O748 = "(O)748";
 
         /// <summary>万象晶球</summary>
         public const string OmniGeode = "(O)749";
@@ -2844,10 +2844,10 @@ public const string CrabPot = "(O)710";
         public const string MonsterMusk = "(O)879";
 
         /// <summary>传送图腾：姜岛</summary>
-        public const string WarpTotemIsland= "(O)886";
+        public const string WarpTotemIsland = "(O)886";
 
-  /// <summary>银河之魂</summary>
-public const string GalaxySoul = "(O)896";
+        /// <summary>银河之魂</summary>
+        public const string GalaxySoul = "(O)896";
 
         /// <summary>皮埃尔丢失的存货单</summary>
         public const string PierresMissingStocklist = "(O)897";
@@ -2883,7 +2883,7 @@ public const string GalaxySoul = "(O)896";
         public const string DwarvishSafetyManual = "(O)Book_Bombs";
 
         /// <summary>捕蟹秘籍</summary>
-        public const string TheArtOfCrabbing= "(O)Book_Crabbing";
+        public const string TheArtOfCrabbing = "(O)Book_Crabbing";
 
         /// <summary>铜墙铁壁 Jack Be Nimble, Jack Be Thick</summary>
         public const string TheDefenseBook = "(O)Book_Defense";
@@ -2910,16 +2910,16 @@ public const string GalaxySoul = "(O)896";
         public const string PriceCatalogue = "(O)Book_PriceCatalogue";
 
         /// <summary>酱料女皇烹饪秘籍</summary>
-        public const string QueenOfSauceCookbook= "(O)Book_QueenOfSauce";
+        public const string QueenOfSauceCookbook = "(O)Book_QueenOfSauce";
 
         /// <summary>海之宝石</summary>
-        public const string JewelsOfTheSea= "(O)Book_Roe";
+        public const string JewelsOfTheSea = "(O)Book_Roe";
 
         /// <summary>风之道 第一部分</summary>
-        public const string WayOfTheWind_1= "(O)Book_Speed";
+        public const string WayOfTheWind_1 = "(O)Book_Speed";
 
         /// <summary>风之道 第二部分</summary>
-        public const string WayOfTheWind_2= "(O)Book_Speed2";
+        public const string WayOfTheWind_2 = "(O)Book_Speed2";
 
         /// <summary>小巷自助餐</summary>
         public const string TheAlleywayBuffet = "(O)Book_Trash";
@@ -2928,7 +2928,7 @@ public const string GalaxySoul = "(O)896";
         public const string MonsterCompendium = "(O)Book_Void";
 
         /// <summary>浣熊日记</summary>
-        public const string WaysOfTheWild= "(O)Book_WildSeeds";
+        public const string WaysOfTheWild = "(O)Book_WildSeeds";
 
         /// <summary>伐木秘事</summary>
         public const string WoodysSecret = "(O)Book_Woodcutting";

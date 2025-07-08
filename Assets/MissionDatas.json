@@ -84,7 +84,12 @@
     "step": 10,
     "max": 20
   },
-  "PlantTrees": {
+  "PlantWildTrees": {
+    "target": 10,
+    "step": 10,
+    "max": 20
+  },
+  "PlantFruitTrees": {
     "target": 10,
     "step": 10,
     "max": 20

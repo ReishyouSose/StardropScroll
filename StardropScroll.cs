@@ -25,8 +25,7 @@ namespace StardropScroll
             helper.Events.GameLoop.GameLaunched += GameLoop_GameLaunched;
             helper.Events.GameLoop.SaveLoaded += GameLoop_SaveLoaded;
             helper.Events.Multiplayer.ModMessageReceived += Multiplayer_ModMessageReceived;
-            helper.Events.GameLoop.OneSecondUpdateTicked +=  MissionManager.CheckIncrease;
-            ;
+            helper.Events.GameLoop.OneSecondUpdateTicked += MissionManager.CheckIncrease;
         }
 
         private void Multiplayer_ModMessageReceived(object? sender, ModMessageReceivedEventArgs e)
@@ -59,6 +58,9 @@ namespace StardropScroll
             if (api == null)
                 return;
             api.Register(ModManifest, reset: () => config = new(), save: () => Helper.WriteConfig(config));
+            api.AddBoolOption(ModManifest, () => config.DebugMode, v => config.DebugMode = v, () => I18n.Config_DebugMod());
+            api.AddBoolOption(ModManifest, () => config.ReplaceUnStackable, v => config.ReplaceUnStackable = v,
+                () => I18n.Config_ReplaceUnstackable(), () => I18n.Config_ReplaceUnstackableDesc());
             api.AddKeybindList(ModManifest, () => config.OpenMenu, v => config.OpenMenu = v,
                 () => I18n.Config_OpenMenu(), () => I18n.Config_OpenMenuDesc(), nameof(config.OpenMenu));
         }

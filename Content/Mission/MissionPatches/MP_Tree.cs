@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.TerrainFeatures;
 using StardropScroll.Helper;
@@ -26,7 +25,7 @@ namespace StardropScroll.Content.Mission.MissionPatches
                 var list = new List<CodeInstruction>()
                 {
                     ILHelper.Instance(),
-                    ILHelper.Call(typeof( MP_Tree),(nameof(ExtraWoodDrop))),
+                    ILHelper.Call(typeof(MissionBonus),(nameof(MissionBonus.ExtraWoodDrop))),
                 };
                 codes.InsertRange(i, list);
                 break;
@@ -65,47 +64,32 @@ namespace StardropScroll.Content.Mission.MissionPatches
                     continue;
                 if (!codes[i + 2].Contains("set_Value"))
                     continue;
-
+                List<CodeInstruction> list = new()
+                {
+                    new(OpCodes.Ldloc_2),
+                    ILHelper.Call(typeof(MP_Tree), nameof(IncreaseHarvestMoss))
+                };
+                codes.InsertRange(i + 3, list);
             }
             return codes;
         }
 
-        private static void ExtraWoodDrop(Tree tree)
+        [HarmonyPatch(nameof(Tree.dayUpdate))]
+        [HarmonyPostfix]
+        private static void DayUpdate(Tree __instance)
         {
-            int level = MissionManager.GetLevel(MissionID.CutTrees);
-            if (level <= 0)
+            Tree t = __instance;
+            if (t.destroy.Value)
                 return;
-            var tile = tree.Tile.ToPoint();
-            int amount = 12 + ExtraWoodCalculator(tile, tree.treeType.Value);
-            amount *= MissionManager.GetBonusTimes(level, 0.9);
-            ItemHelper.CreateDroppedItem(ItemID.Wood, new(tile.X + (tree.shakeLeft.Value ? -4 : 4), tile.Y), tree.Location, amount);
+            if (t.stump.Value)
+                return;
+            MissionBonus.ExtraTreeGrowChance(t);
+            MissionBonus.ExtraTreeMossChance(t);
+            MissionBonus.ExtraTreeImmediatelyTapper(t);
         }
-
-        private static int ExtraWoodCalculator(Point tileLocation, string treeType)
+        private static void IncreaseHarvestMoss(Item moss)
         {
-            Random random = Utility.CreateRandom(Game1.uniqueIDForThisGame, Game1.stats.DaysPlayed, tileLocation.X * 7.0, tileLocation.Y * 11.0, 0.0);
-            int extraWood = 0;
-            if (random.NextDouble() < Game1.player.DailyLuck)
-            {
-                extraWood++;
-            }
-            if (random.NextDouble() < Game1.player.ForagingLevel / 12.5)
-            {
-                extraWood++;
-            }
-            if (random.NextDouble() < Game1.player.ForagingLevel / 12.5)
-            {
-                extraWood++;
-            }
-            if (random.NextDouble() < Game1.player.LuckLevel / 25.0)
-            {
-                extraWood++;
-            }
-            if (treeType == "3")
-            {
-                extraWood++;
-            }
-            return extraWood;
+            MissionManager.Increase(MissionID.HarvestMoss, moss.Stack);
         }
     }
 }
