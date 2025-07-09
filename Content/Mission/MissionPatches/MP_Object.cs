@@ -30,5 +30,13 @@ namespace StardropScroll.Content.Mission.MissionPatches
             MissionBonus.ExtraItemValue(__instance, ref multiplier);
             __result = startPrice * multiplier;
         }
+
+        [HarmonyPatch(nameof(StardewO.cutWeed))]
+        [HarmonyPrefix]
+        private static void CutWeed(StardewO __instance,Farmer who)
+        {
+                    MissionManager.Increase(MissionID.ClearWeeds);
+                    MissionBonus.ExtraWeedsDrop(__instance);
+        }
     }
 }

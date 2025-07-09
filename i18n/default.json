@@ -4,6 +4,7 @@
   "Config.DebugMod": "Debug Mode",
   "Config.ReplaceUnstackable": "Replace Unstackable",
   "Config.ReplaceUnstackable_Desc": "Replace unstackable items with golden coins for monster drops",
+  "Mission": "Mission",
 
   "Mission.CutTrees": "Cut Trees",
   "Mission.CutTrees_Desc": "The Forestry Commission requests lumber for valley maintenance.",

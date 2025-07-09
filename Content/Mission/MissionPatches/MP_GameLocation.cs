@@ -190,21 +190,6 @@ namespace StardropScroll.Content.Mission.MissionPatches
             return codes;
         }
 
-        [HarmonyPatch(nameof(GameLocation.removeObject))]
-        [HarmonyPostfix]
-        private static void RemoveObject(GameLocation __instance, Vector2 location, bool showDestroyedObject)
-        {
-            __instance.objects.TryGetValue(location, out StardewO o);
-            if (o != null && (o.CanBeGrabbed || showDestroyedObject))
-            {
-                if (o.IsWeeds())
-                {
-                    MissionManager.Increase(MissionID.ClearWeeds);
-                    MissionBonus.ExtraWeedsDrop(__instance, location);
-                }
-            }
-        }
-
         [HarmonyPatch("breakStone")]
         [HarmonyPostfix]
         private static void BreakStone(GameLocation __instance, string stoneId, int x, int y, Farmer who, Random r)

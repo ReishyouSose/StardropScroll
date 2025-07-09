@@ -22,10 +22,11 @@ namespace StardropScroll.Content.Mission
     }
     public class Mission
     {
+        private const string Prefix = "Mission.";
+        private const string Desc = "_Desc";
+        private const string Objective = "_Objective";
         public string Name { get; set; }
-
         public int Current { get; set; }
-
         public int Level { get; set; }
 
         [JsonIgnore]
@@ -52,9 +53,29 @@ namespace StardropScroll.Content.Mission
             Level++;
             GetTarget();
         }
+        public string GetName() => I18n.GetByKey(Prefix + Name);
+
+        public string GetDescription() => I18n.GetByKey(Prefix + Name + Desc);
+        public int GetMoneyReward() => (Level + 1) * 500;
+        public void OnMoneyRewardClaimed()
+        {
+
+        }
+        public void OnLeaveQuestPage()
+        {
+
+        }
+
+        public List<(int Current, int Target)> GetObjectives() => new() { (Current, Target) };
+
+        public List<string> GetObjectiveDescriptions() => new()
+        {
+            I18n.GetByKey(Prefix + Name  + Objective, new { Amount = (Target) })
+        };
 
         public void GetTarget() => Target = Data.Target + Level * Data.Step;
     }
+
     public static class MissionManager
     {
         public static Dictionary<string, Mission> Missions { get; private set; }
@@ -126,6 +147,7 @@ namespace StardropScroll.Content.Mission
             }
             missionIncrease.TryGetValue(name, out int add);
             missionIncrease[name] = add + amount;
+            Main.Log($"{name} add {amount}");
         }
 
         public static void CheckIncrease(object? sender, OneSecondUpdateTickedEventArgs e)

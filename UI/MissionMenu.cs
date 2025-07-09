@@ -8,86 +8,60 @@ using StardropScroll.Content.Mission;
 
 namespace StardropScroll.UI
 {
-    // Token: 0x020002A1 RID: 673
     public class MissionMenu : IClickableMenu
     {
-        // Token: 0x04001DA6 RID: 7590
-        public const int questsPerPage = 6;
+        public const int missionsPerPage = 6;
 
-        // Token: 0x04001DA7 RID: 7591
         public const int region_forwardButton = 101;
 
-        // Token: 0x04001DA8 RID: 7592
         public const int region_backButton = 102;
 
-        // Token: 0x04001DA9 RID: 7593
         public const int region_rewardBox = 103;
 
-        // Token: 0x04001DAA RID: 7594
-        public const int region_cancelQuestButton = 104;
+        public const int region_cancelMissionButton = 104;
 
-        // Token: 0x04001DAB RID: 7595
-        protected List<List<MissionEntry>> pages;
+        protected List<List<Mission>> pages;
 
-        // Token: 0x04001DAC RID: 7596
-        public List<ClickableComponent> questLogButtons;
+        public List<ClickableComponent> missionLogButtons;
 
-        // Token: 0x04001DAD RID: 7597
         protected int currentPage;
 
-        // Token: 0x04001DAE RID: 7598
-        protected int questPage = -1;
+        protected int missionPage = -1;
 
-        // Token: 0x04001DAF RID: 7599
         public ClickableTextureComponent forwardButton;
 
-        // Token: 0x04001DB0 RID: 7600
         public ClickableTextureComponent backButton;
 
-        // Token: 0x04001DB1 RID: 7601
         public ClickableTextureComponent rewardBox;
 
-        // Token: 0x04001DB2 RID: 7602
-        public ClickableTextureComponent cancelQuestButton;
+        public ClickableTextureComponent cancelMissionButton;
 
-        // Token: 0x04001DB3 RID: 7603
-        protected MissionEntry _shownQuest;
+        protected Mission _shownMission;
 
-        // Token: 0x04001DB4 RID: 7604
         protected List<string> _objectiveText;
 
-        // Token: 0x04001DB5 RID: 7605
         protected float _contentHeight;
 
-        // Token: 0x04001DB6 RID: 7606
         protected float _scissorRectHeight;
 
-        // Token: 0x04001DB7 RID: 7607
         public float scrollAmount;
 
-        // Token: 0x04001DB8 RID: 7608
         public ClickableTextureComponent upArrow;
 
-        // Token: 0x04001DB9 RID: 7609
         public ClickableTextureComponent downArrow;
 
-        // Token: 0x04001DBA RID: 7610
         public ClickableTextureComponent scrollBar;
 
-        // Token: 0x04001DBB RID: 7611
         protected bool scrolling;
 
-        // Token: 0x04001DBC RID: 7612
         public Rectangle scrollBarBounds;
 
-        // Token: 0x04001DBD RID: 7613
         private string hoverText = "";
-        // Token: 0x06002BF0 RID: 11248 RVA: 0x0021755C File Offset: 0x0021575C
         public MissionMenu() : base(0, 0, 0, 0, true)
         {
             Game1.dayTimeMoneyBox.DismissQuestPing();
             Game1.playSound("bigSelect", null);
-            paginateQuests();
+            PaginateMissions();
             width = 832;
             height = 576;
             if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.ko || LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.fr)
@@ -97,10 +71,10 @@ namespace StardropScroll.UI
             Vector2 topLeft = Utility.getTopLeftPositionForCenteringOnScreen(width, height, 0, 0);
             xPositionOnScreen = (int)topLeft.X;
             yPositionOnScreen = (int)topLeft.Y + 32;
-            questLogButtons = new List<ClickableComponent>();
+            missionLogButtons = new List<ClickableComponent>();
             for (int i = 0; i < 6; i++)
             {
-                questLogButtons.Add(new ClickableComponent(new Rectangle(xPositionOnScreen + 16, yPositionOnScreen + 16 + i * ((height - 32) / 6), width - 32, (height - 32) / 6 + 4), i.ToString() ?? "")
+                missionLogButtons.Add(new ClickableComponent(new Rectangle(xPositionOnScreen + 16, yPositionOnScreen + 16 + i * ((height - 32) / 6), width - 32, (height - 32) / 6 + 4), i.ToString() ?? "")
                 {
                     myID = i,
                     downNeighborID = -7777,
@@ -124,7 +98,7 @@ namespace StardropScroll.UI
             {
                 myID = 103
             };
-            cancelQuestButton = new ClickableTextureComponent(new Rectangle(xPositionOnScreen + 4, yPositionOnScreen + height + 4, 48, 48), Game1.mouseCursors, new Rectangle(322, 498, 12, 12), 4f, true)
+            cancelMissionButton = new ClickableTextureComponent(new Rectangle(xPositionOnScreen + 4, yPositionOnScreen + height + 4, 48, 48), Game1.mouseCursors, new Rectangle(322, 498, 12, 12), 4f, true)
             {
                 myID = 104
             };
@@ -144,10 +118,9 @@ namespace StardropScroll.UI
             }
         }
 
-        // Token: 0x06002BF1 RID: 11249 RVA: 0x002179F4 File Offset: 0x00215BF4
         protected override void customSnapBehavior(int direction, int oldRegion, int oldID)
         {
-            if (oldID >= 0 && oldID < 6 && questPage == -1)
+            if (oldID >= 0 && oldID < 6 && missionPage == -1)
             {
                 switch (direction)
                 {
@@ -175,7 +148,7 @@ namespace StardropScroll.UI
             }
             else if (oldID == 102)
             {
-                if (questPage != -1)
+                if (missionPage != -1)
                 {
                     return;
                 }
@@ -184,15 +157,12 @@ namespace StardropScroll.UI
             snapCursorToCurrentSnappedComponent();
         }
 
-        // Token: 0x06002BF2 RID: 11250 RVA: 0x00217AE4 File Offset: 0x00215CE4
         public override void snapToDefaultClickableComponent()
         {
             currentlySnappedComponent = getComponentWithID(0);
             snapCursorToCurrentSnappedComponent();
         }
 
-        /// <inheritdoc />
-        // Token: 0x06002BF3 RID: 11251 RVA: 0x00217AFC File Offset: 0x00215CFC
         public override void receiveGamePadButton(Buttons button)
         {
             if (button != Buttons.RightTrigger)
@@ -201,32 +171,30 @@ namespace StardropScroll.UI
                 {
                     return;
                 }
-                if (questPage == -1 && currentPage > 0)
+                if (missionPage == -1 && currentPage > 0)
                 {
-                    nonQuestPageBackButton();
+                    NonMissionPageBackButton();
                 }
             }
-            else if (questPage == -1 && currentPage < pages.Count - 1)
+            else if (missionPage == -1 && currentPage < pages.Count - 1)
             {
-                nonQuestPageForwardButton();
+                NonMissionPageForwardButton();
                 return;
             }
         }
 
-        /// <summary>Get the paginated list of quests which should be shown in the quest log.</summary>
-        // Token: 0x06002BF4 RID: 11252 RVA: 0x00217B58 File Offset: 0x00215D58
-        protected virtual void paginateQuests()
+        private void PaginateMissions()
         {
-            pages = new List<List<MissionEntry>>();
-            IList<MissionEntry> quests = GetAllQuests();
+            pages = new List<List<Mission>>();
+            var missions = MissionManager.Missions.Values.ToList();
             int startIndex = 0;
-            while (startIndex < quests.Count)
+            while (startIndex < missions.Count)
             {
-                List<MissionEntry> page = new();
+                List<Mission> page = new();
                 int i = 0;
-                while (i < 6 && startIndex < quests.Count)
+                while (i < 6 && startIndex < missions.Count)
                 {
-                    page.Add(quests[startIndex]);
+                    page.Add(missions[startIndex]);
                     startIndex++;
                     i++;
                 }
@@ -234,32 +202,17 @@ namespace StardropScroll.UI
             }
             if (pages.Count == 0)
             {
-                pages.Add(new List<MissionEntry>());
+                pages.Add(new());
             }
             currentPage = Utility.Clamp(currentPage, 0, pages.Count - 1);
-            questPage = -1;
+            missionPage = -1;
         }
 
-        /// <summary>Get the quests which should be shown in the quest log.</summary>
-        // Token: 0x06002BF5 RID: 11253 RVA: 0x00217C00 File Offset: 0x00215E00
-        protected virtual IList<MissionEntry> GetAllQuests()
-        {
-            List<MissionEntry> quests = new();
-            foreach (var m in MissionManager.Missions)
-            {
-                quests.Add(new(m.Value));
-            }
-            return quests;
-        }
-
-        // Token: 0x06002BF6 RID: 11254 RVA: 0x00217CBD File Offset: 0x00215EBD
         public bool NeedsScroll()
         {
-            return (_shownQuest == null || !_shownQuest.ShouldDisplayAsComplete()) && questPage != -1 && _contentHeight > _scissorRectHeight;
+            return (_shownMission == null || !_shownMission.CanSubmit) && missionPage != -1 && _contentHeight > _scissorRectHeight;
         }
 
-        /// <inheritdoc />
-        // Token: 0x06002BF7 RID: 11255 RVA: 0x00217CF0 File Offset: 0x00215EF0
         public override void receiveScrollWheelAction(int direction)
         {
             if (NeedsScroll())
@@ -283,29 +236,23 @@ namespace StardropScroll.UI
             base.receiveScrollWheelAction(direction);
         }
 
-        /// <inheritdoc />
-        // Token: 0x06002BF8 RID: 11256 RVA: 0x00217D78 File Offset: 0x00215F78
         public override void performHoverAction(int x, int y)
         {
             hoverText = "";
             base.performHoverAction(x, y);
-            if (questPage == -1)
+            if (missionPage == -1)
             {
-                for (int i = 0; i < questLogButtons.Count; i++)
+                for (int i = 0; i < missionLogButtons.Count; i++)
                 {
-                    if (pages.Count > 0 && pages[0].Count > i && questLogButtons[i].containsPoint(x, y) && !questLogButtons[i].containsPoint(Game1.getOldMouseX(), Game1.getOldMouseY()))
+                    if (pages.Count > 0 && pages[0].Count > i && missionLogButtons[i].containsPoint(x, y) && !missionLogButtons[i].containsPoint(Game1.getOldMouseX(), Game1.getOldMouseY()))
                     {
                         Game1.playSound("Cowboy_gunshot", null);
                     }
                 }
             }
-            else if (_shownQuest.CanBeCancelled() && cancelQuestButton.containsPoint(x, y))
-            {
-                hoverText = Game1.content.LoadString("Strings\\StringsFromCSFiles:QuestLog.cs.11364");
-            }
             forwardButton.tryHover(x, y, 0.2f);
             backButton.tryHover(x, y, 0.2f);
-            cancelQuestButton.tryHover(x, y, 0.2f);
+            cancelMissionButton.tryHover(x, y, 0.2f);
             if (NeedsScroll())
             {
                 upArrow.tryHover(x, y, 0.1f);
@@ -314,13 +261,11 @@ namespace StardropScroll.UI
             }
         }
 
-        /// <inheritdoc />
-        // Token: 0x06002BF9 RID: 11257 RVA: 0x00217ECC File Offset: 0x002160CC
         public override void receiveKeyPress(Keys key)
         {
-            if (Game1.isAnyGamePadButtonBeingPressed() && questPage != -1 && Game1.options.doesInputListContain(Game1.options.menuButton, key))
+            if (Game1.isAnyGamePadButtonBeingPressed() && missionPage != -1 && Game1.options.doesInputListContain(Game1.options.menuButton, key))
             {
-                exitQuestPage();
+                ExitMissionPage();
             }
             else
             {
@@ -333,8 +278,7 @@ namespace StardropScroll.UI
             }
         }
 
-        // Token: 0x06002BFA RID: 11258 RVA: 0x00217F48 File Offset: 0x00216148
-        private void nonQuestPageForwardButton()
+        private void NonMissionPageForwardButton()
         {
             currentPage++;
             Game1.playSound("shwip", null);
@@ -345,8 +289,7 @@ namespace StardropScroll.UI
             }
         }
 
-        // Token: 0x06002BFB RID: 11259 RVA: 0x00217FAC File Offset: 0x002161AC
-        private void nonQuestPageBackButton()
+        private void NonMissionPageBackButton()
         {
             currentPage--;
             Game1.playSound("shwip", null);
@@ -357,8 +300,6 @@ namespace StardropScroll.UI
             }
         }
 
-        /// <inheritdoc />
-        // Token: 0x06002BFC RID: 11260 RVA: 0x00218002 File Offset: 0x00216202
         public override void leftClickHeld(int x, int y)
         {
             if (GameMenu.forcePreventClose)
@@ -372,8 +313,6 @@ namespace StardropScroll.UI
             }
         }
 
-        /// <inheritdoc />
-        // Token: 0x06002BFD RID: 11261 RVA: 0x00218023 File Offset: 0x00216223
         public override void releaseLeftClick(int x, int y)
         {
             if (GameMenu.forcePreventClose)
@@ -384,7 +323,6 @@ namespace StardropScroll.UI
             scrolling = false;
         }
 
-        // Token: 0x06002BFE RID: 11262 RVA: 0x0021803C File Offset: 0x0021623C
         public virtual void SetScrollFromY(int y)
         {
             int y2 = scrollBar.bounds.Y;
@@ -398,7 +336,6 @@ namespace StardropScroll.UI
             }
         }
 
-        // Token: 0x06002BFF RID: 11263 RVA: 0x002180D8 File Offset: 0x002162D8
         public void UpArrowPressed()
         {
             upArrow.scale = upArrow.baseScale;
@@ -410,7 +347,6 @@ namespace StardropScroll.UI
             SetScrollBarFromAmount();
         }
 
-        // Token: 0x06002C00 RID: 11264 RVA: 0x0021812C File Offset: 0x0021632C
         public void DownArrowPressed()
         {
             downArrow.scale = downArrow.baseScale;
@@ -422,7 +358,6 @@ namespace StardropScroll.UI
             SetScrollBarFromAmount();
         }
 
-        // Token: 0x06002C01 RID: 11265 RVA: 0x00218190 File Offset: 0x00216390
         private void SetScrollBarFromAmount()
         {
             if (!NeedsScroll())
@@ -441,7 +376,6 @@ namespace StardropScroll.UI
             scrollBar.bounds.Y = (int)(scrollBarBounds.Y + (scrollBarBounds.Height - scrollBar.bounds.Height) / Math.Max(1f, _contentHeight - _scissorRectHeight) * scrollAmount);
         }
 
-        // Token: 0x06002C02 RID: 11266 RVA: 0x00218251 File Offset: 0x00216451
         public override void applyMovementKey(int direction)
         {
             base.applyMovementKey(direction);
@@ -460,8 +394,6 @@ namespace StardropScroll.UI
             }
         }
 
-        /// <inheritdoc />
-        // Token: 0x06002C03 RID: 11267 RVA: 0x00218278 File Offset: 0x00216478
         public override void receiveLeftClick(int x, int y, bool playSound = true)
         {
             base.receiveLeftClick(x, y, playSound);
@@ -469,18 +401,18 @@ namespace StardropScroll.UI
             {
                 return;
             }
-            if (questPage != -1)
+            if (missionPage != -1)
             {
-                int yOffset = _shownQuest.IsTimedQuest() && _shownQuest.GetDaysLeft() > 0 && SpriteText.getWidthOfString(_shownQuest.GetName(), 999999) > width / 2 ? -48 : 0;
-                if (questPage != -1 && _shownQuest.ShouldDisplayAsComplete() && _shownQuest.HasMoneyReward() && rewardBox.containsPoint(x, y + yOffset))
+                int yOffset = 0;
+                if (missionPage != -1 && _shownMission.CanSubmit && rewardBox.containsPoint(x, y + yOffset))
                 {
-                    Game1.player.Money += _shownQuest.GetMoneyReward();
+                    Game1.player.Money += _shownMission.GetMoneyReward();
                     Game1.playSound("purchaseRepeat", null);
-                    _shownQuest.OnMoneyRewardClaimed();
+                    _shownMission.OnMoneyRewardClaimed();
                 }
                 else if (!NeedsScroll() || backButton.containsPoint(x, y))
                 {
-                    exitQuestPage();
+                    ExitMissionPage();
                 }
                 if (NeedsScroll())
                 {
@@ -515,22 +447,21 @@ namespace StardropScroll.UI
                 }
                 return;
             }
-            for (int i = 0; i < questLogButtons.Count; i++)
+            for (int i = 0; i < missionLogButtons.Count; i++)
             {
-                if (pages.Count > 0 && pages[currentPage].Count > i && questLogButtons[i].containsPoint(x, y))
+                if (pages.Count > 0 && pages[currentPage].Count > i && missionLogButtons[i].containsPoint(x, y))
                 {
                     Game1.playSound("smallSelect", null);
-                    questPage = i;
-                    _shownQuest = pages[currentPage][i];
-                    _objectiveText = _shownQuest.GetObjectiveDescriptions();
-                    _shownQuest.MarkAsViewed();
+                    missionPage = i;
+                    _shownMission = pages[currentPage][i];
+                    _objectiveText = _shownMission.GetObjectiveDescriptions();
                     scrollAmount = 0f;
                     SetScrollBarFromAmount();
                     if (Game1.options.SnappyMenus)
                     {
                         currentlySnappedComponent = getComponentWithID(102);
                         currentlySnappedComponent.rightNeighborID = -7777;
-                        currentlySnappedComponent.downNeighborID = HasMoneyReward() ? 103 : _shownQuest.CanBeCancelled() ? 104 : -1;
+                        currentlySnappedComponent.downNeighborID = 103;
                         snapCursorToCurrentSnappedComponent();
                     }
                     return;
@@ -538,39 +469,22 @@ namespace StardropScroll.UI
             }
             if (currentPage < pages.Count - 1 && forwardButton.containsPoint(x, y))
             {
-                nonQuestPageForwardButton();
+                NonMissionPageForwardButton();
                 return;
             }
             if (currentPage > 0 && backButton.containsPoint(x, y))
             {
-                nonQuestPageBackButton();
+                NonMissionPageBackButton();
                 return;
             }
             Game1.playSound("bigDeSelect", null);
             exitThisMenu(true);
         }
 
-        // Token: 0x06002C04 RID: 11268 RVA: 0x0021870E File Offset: 0x0021690E
-        public bool HasReward()
+        public void ExitMissionPage()
         {
-            return _shownQuest.HasReward();
-        }
-
-        // Token: 0x06002C05 RID: 11269 RVA: 0x0021871B File Offset: 0x0021691B
-        public bool HasMoneyReward()
-        {
-            return _shownQuest.HasMoneyReward();
-        }
-
-        // Token: 0x06002C06 RID: 11270 RVA: 0x00218728 File Offset: 0x00216928
-        public void exitQuestPage()
-        {
-            if (_shownQuest.OnLeaveQuestPage())
-            {
-                pages[currentPage].RemoveAt(questPage);
-            }
-            questPage = -1;
-            paginateQuests();
+            missionPage = -1;
+            PaginateMissions();
             Game1.playSound("shwip", null);
             if (Game1.options.SnappyMenus)
             {
@@ -578,73 +492,60 @@ namespace StardropScroll.UI
             }
         }
 
-        /// <inheritdoc />
-        // Token: 0x06002C07 RID: 11271 RVA: 0x00218791 File Offset: 0x00216991
         public override void update(GameTime time)
         {
             base.update(time);
-            if (questPage != -1 && HasReward())
+            if (missionPage != -1)
             {
                 rewardBox.scale = rewardBox.baseScale + Game1.dialogueButtonScale / 20f;
             }
         }
 
-        /// <inheritdoc />
-        // Token: 0x06002C08 RID: 11272 RVA: 0x002187D0 File Offset: 0x002169D0
         public override void draw(SpriteBatch b)
         {
             if (!Game1.options.showClearBackgrounds)
             {
                 b.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds, Color.Black * 0.75f);
             }
-            SpriteText.drawStringWithScrollCenteredAt(b, Game1.content.LoadString("Strings\\StringsFromCSFiles:QuestLog.cs.11373"), xPositionOnScreen + width / 2, yPositionOnScreen - 64, "", 1f, null, 0, 0.88f, false);
-            if (questPage == -1)
+            //SpriteText.drawStringWithScrollCenteredAt(b, Game1.content.LoadString("Strings\\StringsFromCSFiles:QuestLog.cs.11373"), xPositionOnScreen + width / 2, yPositionOnScreen - 64, "", 1f, null, 0, 0.88f, false);
+            SpriteText.drawStringWithScrollCenteredAt(b, I18n.Mission(), xPositionOnScreen + width / 2, yPositionOnScreen - 64, "", 1f, null, 0, 0.88f, false);
+            if (missionPage == -1)
             {
                 drawTextureBox(b, Game1.mouseCursors, new Rectangle(384, 373, 18, 18), xPositionOnScreen, yPositionOnScreen, width, height, Color.White, 4f, true, -1f);
-                for (int i = 0; i < questLogButtons.Count; i++)
+                for (int i = 0; i < missionLogButtons.Count; i++)
                 {
                     if (pages.Count > 0 && pages[currentPage].Count > i)
                     {
-                        drawTextureBox(b, Game1.mouseCursors, new Rectangle(384, 396, 15, 15), questLogButtons[i].bounds.X, questLogButtons[i].bounds.Y, questLogButtons[i].bounds.Width, questLogButtons[i].bounds.Height, questLogButtons[i].containsPoint(Game1.getOldMouseX(), Game1.getOldMouseY()) ? Color.Wheat : Color.White, 4f, false, -1f);
-                        if (pages[currentPage][i].ShouldDisplayAsNew() || pages[currentPage][i].ShouldDisplayAsComplete())
+                        ClickableComponent button = missionLogButtons[i];
+                        Mission mission = pages[currentPage][i];
+                        drawTextureBox(b, Game1.mouseCursors, new Rectangle(384, 396, 15, 15), button.bounds.X, button.bounds.Y, button.bounds.Width, button.bounds.Height, button.containsPoint(Game1.getOldMouseX(), Game1.getOldMouseY()) ? Color.Wheat : Color.White, 4f, false, -1f);
+                        if (mission.CanSubmit)
                         {
-                            Utility.drawWithShadow(b, Game1.mouseCursors, new Vector2(questLogButtons[i].bounds.X + 64 + 4, questLogButtons[i].bounds.Y + 44), new Rectangle(pages[currentPage][i].ShouldDisplayAsComplete() ? 341 : 317, 410, 23, 9), Color.White, 0f, new Vector2(11f, 4f), 4f + Game1.dialogueButtonScale * 10f / 250f, false, 0.99f, -1, -1, 0.35f);
+                            Utility.drawWithShadow(b, Game1.mouseCursors, new Vector2(button.bounds.X + 64 + 4, button.bounds.Y + 44), new Rectangle(341, 410, 23, 9), Color.White, 0f, new Vector2(11f, 4f), 4f + Game1.dialogueButtonScale * 10f / 250f, false, 0.99f, -1, -1, 0.35f);
                         }
                         else
                         {
-                            Utility.drawWithShadow(b, Game1.mouseCursors, new Vector2(questLogButtons[i].bounds.X + 32, questLogButtons[i].bounds.Y + 28), pages[currentPage][i].IsTimedQuest() ? new Rectangle(410, 501, 9, 9) : new Rectangle(395 + (pages[currentPage][i].IsTimedQuest() ? 3 : 0), 497, 3, 8), Color.White, 0f, Vector2.Zero, 4f, false, 0.99f, -1, -1, 0.35f);
+                            Utility.drawWithShadow(b, Game1.mouseCursors, new Vector2(button.bounds.X + 32, button.bounds.Y + 28), new Rectangle(395, 497, 3, 8), Color.White, 0f, Vector2.Zero, 4f, false, 0.99f, -1, -1, 0.35f);
                         }
-                        pages[currentPage][i].IsTimedQuest();
-                        SpriteText.drawString(b, pages[currentPage][i].GetName(), questLogButtons[i].bounds.X + 128 + 4, questLogButtons[i].bounds.Y + 20, 999999, -1, 999999, 1f, 0.88f, false, -1, "", null, SpriteText.ScrollTextAlignment.Left);
+                        SpriteText.drawString(b, mission.GetName(), button.bounds.X + 128 + 4, button.bounds.Y + 20, 999999, -1, 999999, 1f, 0.88f, false, -1, "", null, SpriteText.ScrollTextAlignment.Left);
                     }
                 }
             }
             else
             {
-                int titleWidth = SpriteText.getWidthOfString(_shownQuest.GetName(), 999999);
+                int titleWidth = SpriteText.getWidthOfString(_shownMission.GetName(), 999999);
                 if (titleWidth > width / 2)
                 {
-                    drawTextureBox(b, Game1.mouseCursors, new Rectangle(384, 373, 18, 18), xPositionOnScreen, yPositionOnScreen, width, height + (_shownQuest.ShouldDisplayAsComplete() ? 48 : 0), Color.White, 4f, true, -1f);
-                    SpriteText.drawStringHorizontallyCenteredAt(b, _shownQuest.GetName(), xPositionOnScreen + width / 2, yPositionOnScreen + 32, 999999, -1, 999999, 1f, 0.88f, false, null, 99999);
+                    drawTextureBox(b, Game1.mouseCursors, new Rectangle(384, 373, 18, 18), xPositionOnScreen, yPositionOnScreen, width, height + 48, Color.White, 4f, true, -1f);
+                    SpriteText.drawStringHorizontallyCenteredAt(b, _shownMission.GetName(), xPositionOnScreen + width / 2, yPositionOnScreen + 32, 999999, -1, 999999, 1f, 0.88f, false, null, 99999);
                 }
                 else
                 {
                     drawTextureBox(b, Game1.mouseCursors, new Rectangle(384, 373, 18, 18), xPositionOnScreen, yPositionOnScreen, width, height, Color.White, 4f, true, -1f);
-                    SpriteText.drawStringHorizontallyCenteredAt(b, _shownQuest.GetName(), xPositionOnScreen + width / 2 + (_shownQuest.IsTimedQuest() && _shownQuest.GetDaysLeft() > 0 ? Math.Max(32, SpriteText.getWidthOfString(_shownQuest.GetName(), 999999) / 3) - 32 : 0), yPositionOnScreen + 32, 999999, -1, 999999, 1f, 0.88f, false, null, 99999);
+                    SpriteText.drawStringHorizontallyCenteredAt(b, _shownMission.GetName(), xPositionOnScreen + width / 2, yPositionOnScreen + 32, 999999, -1, 999999, 1f, 0.88f, false, null, 99999);
                 }
                 float extraYOffset = 0f;
-                if (_shownQuest.IsTimedQuest() && _shownQuest.GetDaysLeft() > 0)
-                {
-                    int xOffset = 0;
-                    if (titleWidth > width / 2)
-                    {
-                        xOffset = 28;
-                        extraYOffset = 48f;
-                    }
-                    Utility.drawWithShadow(b, Game1.mouseCursors, new Vector2(xPositionOnScreen + xOffset + 32, yPositionOnScreen + 48 - 8 + extraYOffset), new Rectangle(410, 501, 9, 9), Color.White, 0f, Vector2.Zero, 4f, false, 0.99f, -1, -1, 0.35f);
-                    Utility.drawTextWithShadow(b, Game1.parseText(pages[currentPage][questPage].GetDaysLeft() > 1 ? Game1.content.LoadString("Strings\\StringsFromCSFiles:QuestLog.cs.11374", pages[currentPage][questPage].GetDaysLeft()) : Game1.content.LoadString("Strings\\StringsFromCSFiles:Quest_FinalDay"), Game1.dialogueFont, width - 128), Game1.dialogueFont, new Vector2(xPositionOnScreen + xOffset + 80, yPositionOnScreen + 48 - 8 + extraYOffset), Game1.textColor, 1f, -1f, -1, -1, 1f, 3);
-                }
-                string description = Game1.parseText(_shownQuest.GetDescription(), Game1.dialogueFont, width - 128);
+                string description = Game1.parseText(_shownMission.GetDescription(), Game1.dialogueFont, width - 128);
                 Rectangle cached_scissor_rect = b.GraphicsDevice.ScissorRectangle;
                 Vector2 description_size = Game1.dialogueFont.MeasureString(description);
                 Rectangle scissor_rect = default;
@@ -662,22 +563,19 @@ namespace StardropScroll.UI
                 Game1.graphics.GraphicsDevice.ScissorRectangle = scissor_rect;
                 Utility.drawTextWithShadow(b, description, Game1.dialogueFont, new Vector2(xPositionOnScreen + 64, yPositionOnScreen - scrollAmount + 96f + extraYOffset), Game1.textColor, 1f, -1f, -1, -1, 1f, 3);
                 float yPos = yPositionOnScreen + 96 + description_size.Y + 32f - scrollAmount + extraYOffset;
-                if (_shownQuest.ShouldDisplayAsComplete())
+                if (_shownMission.CanSubmit)
                 {
                     b.End();
                     b.GraphicsDevice.ScissorRectangle = cached_scissor_rect;
                     b.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, null);
                     SpriteText.drawString(b, Game1.content.LoadString("Strings\\StringsFromCSFiles:QuestLog.cs.11376"), xPositionOnScreen + 32 + 4, rewardBox.bounds.Y + 21 + 4 + (int)extraYOffset, 999999, -1, 999999, 1f, 0.88f, false, -1, "", null, SpriteText.ScrollTextAlignment.Left);
                     rewardBox.draw(b, Color.White, 0.9f, 0, 0, (int)extraYOffset);
-                    if (HasMoneyReward())
-                    {
-                        b.Draw(Game1.mouseCursors, new Vector2(rewardBox.bounds.X + 16, rewardBox.bounds.Y + 16 - Game1.dialogueButtonScale / 2f + extraYOffset), new Rectangle?(new Rectangle(280, 410, 16, 16)), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
-                        SpriteText.drawString(b, Game1.content.LoadString("Strings\\StringsFromCSFiles:LoadGameMenu.cs.11020", _shownQuest.GetMoneyReward()), xPositionOnScreen + 448, rewardBox.bounds.Y + 21 + 4 + (int)extraYOffset, 999999, -1, 999999, 1f, 0.88f, false, -1, "", null, SpriteText.ScrollTextAlignment.Left);
-                    }
+                    b.Draw(Game1.mouseCursors, new Vector2(rewardBox.bounds.X + 16, rewardBox.bounds.Y + 16 - Game1.dialogueButtonScale / 2f + extraYOffset), new Rectangle?(new Rectangle(280, 410, 16, 16)), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
+                    SpriteText.drawString(b, Game1.content.LoadString("Strings\\StringsFromCSFiles:LoadGameMenu.cs.11020", _shownMission.GetMoneyReward()), xPositionOnScreen + 448, rewardBox.bounds.Y + 21 + 4 + (int)extraYOffset, 999999, -1, 999999, 1f, 0.88f, false, -1, "", null, SpriteText.ScrollTextAlignment.Left);
                 }
                 else
                 {
-                    var objectives = _shownQuest.GetObjectives();
+                    var objectives = _shownMission.GetObjectives();
                     for (int j = 0; j < _objectiveText.Count; j++)
                     {
                         string text = _objectiveText[j];
@@ -724,7 +622,7 @@ namespace StardropScroll.UI
                         b.Draw(Game1.mouseCursors2, new Rectangle(bar_draw_position.X, bar_draw_position.Y, slice_width * 4, bar_draw_position.Height), new Rectangle?(new Rectangle(bar_background_source.X, bar_background_source.Y, slice_width, bar_background_source.Height)), Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.5f);
                         b.Draw(Game1.mouseCursors2, new Rectangle(bar_draw_position.X + slice_width * 4, bar_draw_position.Y, bar_draw_position.Width - 2 * slice_width * 4, bar_draw_position.Height), new Rectangle?(new Rectangle(bar_background_source.X + slice_width, bar_background_source.Y, bar_background_source.Width - 2 * slice_width, bar_background_source.Height)), Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.5f);
                         b.Draw(Game1.mouseCursors2, new Rectangle(bar_draw_position.Right - slice_width * 4, bar_draw_position.Y, slice_width * 4, bar_draw_position.Height), new Rectangle?(new Rectangle(bar_background_source.Right - slice_width, bar_background_source.Y, slice_width, bar_background_source.Height)), Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.5f);
-                        float quest_progress = current / (float)target;
+                        float mission_progress = current / (float)target;
                         bar_draw_position.X += 4 * bar_horizontal_padding;
                         bar_draw_position.Width -= 4 * bar_horizontal_padding * 2;
                         for (int k = 1; k < notches; k++)
@@ -733,7 +631,7 @@ namespace StardropScroll.UI
                         }
                         bar_draw_position.Y += 4 * bar_vertical_padding;
                         bar_draw_position.Height -= 4 * bar_vertical_padding * 2;
-                        Rectangle rect = new(bar_draw_position.X, bar_draw_position.Y, (int)(bar_draw_position.Width * quest_progress) - 4, bar_draw_position.Height);
+                        Rectangle rect = new(bar_draw_position.X, bar_draw_position.Y, (int)(bar_draw_position.Width * mission_progress) - 4, bar_draw_position.Height);
                         b.Draw(Game1.staminaRect, rect, null, bar_color, 0f, Vector2.Zero, SpriteEffects.None, rect.Y / 10000f);
                         rect.X = rect.Right;
                         rect.Width = 4;
@@ -744,10 +642,7 @@ namespace StardropScroll.UI
                     b.End();
                     b.GraphicsDevice.ScissorRectangle = cached_scissor_rect;
                     b.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, null);
-                    if (_shownQuest.CanBeCancelled())
-                    {
-                        cancelQuestButton.draw(b);
-                    }
+
                     if (NeedsScroll())
                     {
                         if (scrollAmount > 0f)
@@ -767,11 +662,11 @@ namespace StardropScroll.UI
                 downArrow.draw(b);
                 scrollBar.draw(b);
             }
-            if (currentPage < pages.Count - 1 && questPage == -1)
+            if (currentPage < pages.Count - 1 && missionPage == -1)
             {
                 forwardButton.draw(b);
             }
-            if (currentPage > 0 || questPage != -1)
+            if (currentPage > 0 || missionPage != -1)
             {
                 backButton.draw(b);
             }

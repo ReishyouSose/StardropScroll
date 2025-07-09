@@ -498,19 +498,24 @@ namespace StardropScroll.Content.Mission
             t.daysUntilMature.Value -= GetBonusTimes(level, 0.167, 0.833, RandomHelper.ByDayPlays());
         }
 
-        public static void ExtraWeedsDrop(GameLocation location, Vector2 pos)
+        public static void ExtraWeedsDrop(Object o)
         {
+            var location = o.Location;
+            var pos = o.TileLocation;
             int level = GetLevel(MissionID.ClearWeeds);
             var debris = location.debris;
-            int amount = GetBonusTimes(level, 0.33);
+            int amount = GetBonusTimes(level, 0.75);
+            if (amount > 0)
+                debris.Add(new(ItemRegistry.Create(ItemID.Fiber, amount), pos));
+            amount = GetBonusTimes(level, 0.5);
+            if (amount > 0)
+                debris.Add(new(ItemRegistry.Create(ItemID.Moss, amount), pos));
+            amount = GetBonusTimes(level, 0.33);
             if (amount > 0)
                 debris.Add(new(ItemRegistry.Create(ItemID.MixedSeeds, amount), pos));
             amount = GetBonusTimes(level, 0.25);
             if (amount > 0)
                 debris.Add(new(ItemRegistry.Create(ItemID.MixedFlowerSeeds, amount), pos));
-            amount = GetBonusTimes(level, 0.75);
-            if (amount > 0)
-                debris.Add(new(ItemRegistry.Create(ItemID.Fiber, amount), pos));
         }
         private static void AddDropCount(this Dictionary<string, int> id_stack, string id, int add = 1)
         {

@@ -4,6 +4,7 @@
   "Config.DebugMod": "Debug Mode",
   "Config.ReplaceUnstackable": "替换不可堆叠物品",
   "Config.ReplaceUnstackable_Desc": "将怪物掉落中不可堆叠的物品替换为金币",
+  "Mission": "课题",
 
   "Mission.CutTrees": "砍伐树木",
   "Mission.CutTrees_Desc": "林业委员会需要木材用于山谷维护工作",
