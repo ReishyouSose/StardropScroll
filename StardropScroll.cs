@@ -67,13 +67,16 @@ namespace StardropScroll
 
         private void Input_ButtonPressed(object? sender, ButtonPressedEventArgs e)
         {
-            if (Context.CanPlayerMove && Game1.activeClickableMenu == null && config.OpenMenu.IsDown())
+            if (config.OpenMenu.IsDown())
             {
-                Game1.activeClickableMenu = new MissionUI();
-            }
-            else if (Game1.activeClickableMenu is MissionUI)
-            {
-                Game1.exitActiveMenu();
+                if (Context.CanPlayerMove && Game1.activeClickableMenu == null)
+                {
+                    Game1.activeClickableMenu = new MissionMenu();
+                }
+                else if (Game1.activeClickableMenu is MissionMenu)
+                {
+                    Game1.exitActiveMenu();
+                }
             }
         }
     }
