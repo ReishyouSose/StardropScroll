@@ -5,80 +5,81 @@
   "Config.ReplaceUnstackable": "替换不可堆叠物品",
   "Config.ReplaceUnstackable_Desc": "将怪物掉落中不可堆叠的物品替换为金币",
   "Mission": "课题",
+  "MissionCompleted": "课题{{name}}Lv.{{level}}已完成",
 
   "Mission.CutTrees": "砍伐树木",
-  "Mission.CutTrees_Desc": "林业委员会需要木材用于山谷维护工作",
+  "Mission.CutTrees_Desc": "砍倒树时有概率掉落多倍木材",
   "Mission.CutTrees_Objective": "砍伐{{Amount}}棵树",
 
   "Mission.MineStones": "开采石头",
-  "Mission.MineStones_Desc": "克林特需要原材料来维持铁匠铺运营",
+  "Mission.MineStones_Desc": "挖矿点掉落更丰富，并有概率掉落额外素材",
   "Mission.MineStones_Objective": "开采{{Amount}}块石头",
 
   "Mission.PlantCrops": "种植作物",
-  "Mission.PlantCrops_Desc": "皮埃尔的种子店正在推广农业扩张计划",
+  "Mission.PlantCrops_Desc": "作物生长速度更快，并有概率在夜间直接成熟",
   "Mission.PlantCrops_Objective": "种植{{Amount}}株作物",
 
   "Mission.HoeDirts": "锄地",
-  "Mission.HoeDirts_Desc": "为即将到来的种植季准备耕地",
+  "Mission.HoeDirts_Desc": "增加挖出黏土的概率",
   "Mission.HoeDirts_Objective": "锄{{Amount}}块地",
 
-  "Mission.ForageItems": "觅食物品",
-  "Mission.ForageItems_Desc": "镇长发起的环境保护倡议需要野生资源",
+  "Mission.ForageItems": "觅食",
+  "Mission.ForageItems_Desc": "能获得更多采集品",
   "Mission.ForageItems_Objective": "采集{{Amount}}个觅食物品",
 
   "Mission.CheckGarbages": "翻垃圾桶",
-  "Mission.CheckGarbages_Desc": "刘易斯报告镇上有被误丢的贵重物品",
+  "Mission.CheckGarbages_Desc": "翻垃圾桶加运气很合理吧",
   "Mission.CheckGarbages_Objective": "翻找{{Amount}}个垃圾桶",
 
-  "Mission.DigArtifactSpots": "挖掘古物",
-  "Mission.DigArtifactSpots_Desc": "冈瑟需要更多文物来充实博物馆收藏",
-  "Mission.DigArtifactSpots_Objective": "挖掘{{Amount}}处古物斑点",
+  "Mission.DigArtifactSpots": "挖掘远古斑点",
+  "Mission.DigArtifactSpots_Desc": "古物价值更高",
+  "Mission.DigArtifactSpots_Objective": "挖掘{{Amount}}次远古斑点",
 
   "Mission.CatchFishes": "钓鱼",
-  "Mission.CatchFishes_Desc": "威利需要补充鱼店的库存",
-  "Mission.CatchFishes_Objective": "钓到{{Amount}}条鱼",
+  "Mission.CatchFishes_Desc": "鱼的价值更高",
+  "Mission.CatchFishes_Objective": "钓起{{Amount}}次鱼",
 
   "Mission.CatchFishTreasures": "钓取宝箱",
-  "Mission.CatchFishTreasures_Desc": "水手协会悬赏打捞沉没物品",
-  "Mission.CatchFishTreasures_Objective": "获得{{Amount}}个钓鱼宝箱",
+  "Mission.CatchFishTreasures_Desc": "增加出现宝箱的概率",
+  "Mission.CatchFishTreasures_Objective": "钓起{{Amount}}次钓鱼宝箱",
 
   "Mission.CatchGoldenFishTreasures": "钓取金色宝箱",
-  "Mission.CatchGoldenFishTreasures_Desc": "传闻水域中出现了传奇的金色宝箱",
-  "Mission.CatchGoldenFishTreasures_Objective": "获得{{Amount}}个金色宝箱",
+  "Mission.CatchGoldenFishTreasures_Desc": "增加出现金色宝箱的概率",
+  "Mission.CatchGoldenFishTreasures_Objective": "钓起{{Amount}}次金色钓鱼宝箱",
 
   "Mission.GiveGifts": "赠送礼物",
-  "Mission.GiveGifts_Desc": "社区友好关系促进计划",
+  "Mission.GiveGifts_Desc": "与村民的好感度增长更快",
   "Mission.GiveGifts_Objective": "赠送{{Amount}}份礼物",
 
   "Mission.KillMonsters": "消灭怪物",
-  "Mission.KillMonsters_Desc": "冒险者公会发布的洞穴生物悬赏",
+  "Mission.KillMonsters_Desc": "怪物有概率掉落多倍战利品",
   "Mission.KillMonsters_Objective": "消灭{{Amount}}只怪物",
 
   "Mission.KillHardModeMonsters": "消灭困难模式怪物",
-  "Mission.KillHardModeMonsters_Desc": "公会会长需要资深冒险者处理特殊合约",
+  "Mission.KillHardModeMonsters_Desc": "更高的齐钻与银河之魂爆率",
   "Mission.KillHardModeMonsters_Objective": "消灭{{Amount}}只困难模式怪物",
 
   "Mission.ObtainPrismaticShards": "获取五彩碎片",
-  "Mission.ObtainPrismaticShards_Desc": "矮人学者急需这种稀有矿物样本",
+  "Mission.ObtainPrismaticShards_Desc": "暂时没有增益",
   "Mission.ObtainPrismaticShards_Objective": "获取{{Amount}}个五彩碎片",
 
   "Mission.PetAnimals": "抚摸动物",
-  "Mission.PetAnimals_Desc": "畜牧业协会推广的动物福利计划",
+  "Mission.PetAnimals_Desc": "与动物的好感度增长更快",
   "Mission.PetAnimals_Objective": "抚摸{{Amount}}次动物",
 
   "Mission.HarvestMoss": "采集苔藓",
-  "Mission.HarvestMoss_Desc": "法师需要新鲜苔藓制作炼金药剂",
+  "Mission.HarvestMoss_Desc": "增加生长苔藓的概率，即使在温室",
   "Mission.HarvestMoss_Objective": "采集{{Amount}}份苔藓",
 
   "Mission.ClearWeeds": "清除杂草",
-  "Mission.ClearWeeds_Desc": "小镇美化委员会招募志愿者",
+  "Mission.ClearWeeds_Desc": "清除杂草时有额外概率掉落各种种子和纤维",
   "Mission.ClearWeeds_Objective": "清除{{Amount}}处杂草",
 
   "Mission.PlantWildTrees": "种植野生树",
-  "Mission.PlantWildTrees_Desc": "生态恢复项目需要植树专家",
+  "Mission.PlantWildTrees_Desc": "野树生长速度更快，且有概率在夜间直接成熟",
   "Mission.PlantWildTrees_Objective": "种植{{Amount}}棵野生树",
 
   "Mission.PlantFruitTrees": "种植果树",
-  "Mission.PlantFruitTrees_Desc": "Joja超市园艺部门扩张计划",
+  "Mission.PlantFruitTrees_Desc": "果树生长速度更快",
   "Mission.PlantFruitTrees_Objective": "种植{{Amount}}棵果树"
 }

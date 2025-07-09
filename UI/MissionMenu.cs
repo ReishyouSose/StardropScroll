@@ -406,8 +406,6 @@ namespace StardropScroll.UI
                 int yOffset = 0;
                 if (missionPage != -1 && _shownMission.CanSubmit && rewardBox.containsPoint(x, y + yOffset))
                 {
-                    Game1.player.Money += _shownMission.GetMoneyReward();
-                    Game1.playSound("purchaseRepeat", null);
                     _shownMission.OnMoneyRewardClaimed();
                 }
                 else if (!NeedsScroll() || backButton.containsPoint(x, y))
@@ -484,6 +482,7 @@ namespace StardropScroll.UI
         public void ExitMissionPage()
         {
             missionPage = -1;
+            _shownMission.OnLeaveQuestPage();
             PaginateMissions();
             Game1.playSound("shwip", null);
             if (Game1.options.SnappyMenus)
@@ -570,8 +569,11 @@ namespace StardropScroll.UI
                     b.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, null);
                     SpriteText.drawString(b, Game1.content.LoadString("Strings\\StringsFromCSFiles:QuestLog.cs.11376"), xPositionOnScreen + 32 + 4, rewardBox.bounds.Y + 21 + 4 + (int)extraYOffset, 999999, -1, 999999, 1f, 0.88f, false, -1, "", null, SpriteText.ScrollTextAlignment.Left);
                     rewardBox.draw(b, Color.White, 0.9f, 0, 0, (int)extraYOffset);
-                    b.Draw(Game1.mouseCursors, new Vector2(rewardBox.bounds.X + 16, rewardBox.bounds.Y + 16 - Game1.dialogueButtonScale / 2f + extraYOffset), new Rectangle?(new Rectangle(280, 410, 16, 16)), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
-                    SpriteText.drawString(b, Game1.content.LoadString("Strings\\StringsFromCSFiles:LoadGameMenu.cs.11020", _shownMission.GetMoneyReward()), xPositionOnScreen + 448, rewardBox.bounds.Y + 21 + 4 + (int)extraYOffset, 999999, -1, 999999, 1f, 0.88f, false, -1, "", null, SpriteText.ScrollTextAlignment.Left);
+                    if (!_shownMission.Claimed)
+                    {
+                        b.Draw(Game1.mouseCursors, new Vector2(rewardBox.bounds.X + 16, rewardBox.bounds.Y + 16 - Game1.dialogueButtonScale / 2f + extraYOffset), new Rectangle?(new Rectangle(280, 410, 16, 16)), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
+                        SpriteText.drawString(b, Game1.content.LoadString("Strings\\StringsFromCSFiles:LoadGameMenu.cs.11020", _shownMission.Money), xPositionOnScreen + 448, rewardBox.bounds.Y + 21 + 4 + (int)extraYOffset, 999999, -1, 999999, 1f, 0.88f, false, -1, "", null, SpriteText.ScrollTextAlignment.Left);
+}
                 }
                 else
                 {

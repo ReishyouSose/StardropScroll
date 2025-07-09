@@ -5,80 +5,81 @@
   "Config.ReplaceUnstackable": "Replace Unstackable",
   "Config.ReplaceUnstackable_Desc": "Replace unstackable items with golden coins for monster drops",
   "Mission": "Mission",
+  "MissionCompleted": "Mission {{name}} Lv.{{level}} has been completed",
 
   "Mission.CutTrees": "Cut Trees",
-  "Mission.CutTrees_Desc": "The Forestry Commission requests lumber for valley maintenance.",
+  "Mission.CutTrees_Desc": "Cut trees have a chance to drop loot multiple times",
   "Mission.CutTrees_Objective": "Cut {{Amount}} trees",
 
   "Mission.MineStones": "Mine Stones",
-  "Mission.MineStones_Desc": "Clint needs raw materials for his blacksmithing operations.",
+  "Mission.MineStones_Desc": "Mining nodes drop more resources, with a chance for extra bonus materials",
   "Mission.MineStones_Objective": "Mine {{Amount}} stones",
 
   "Mission.PlantCrops": "Plant Crops",
-  "Mission.PlantCrops_Desc": "Pierre's Seeds requests assistance with agricultural expansion.",
+  "Mission.PlantCrops_Desc": "Crops grow faster and have a chance to instantly mature overnight",
   "Mission.PlantCrops_Objective": "Plant {{Amount}} crops",
 
   "Mission.HoeDirts": "Hoe Dirts",
-  "Mission.HoeDirts_Desc": "Prepare farmland for the upcoming growing season.",
+  "Mission.HoeDirts_Desc": "Increased chance to dig up Clay",
   "Mission.HoeDirts_Objective": "Hoe {{Amount}} dirt patches",
 
   "Mission.ForageItems": "Forage Items",
-  "Mission.ForageItems_Desc": "The Governor's environmental initiative needs foraged goods.",
+  "Mission.ForageItems_Desc": "Gain more foraged items when collecting",
   "Mission.ForageItems_Objective": "Forage {{Amount}} items",
 
   "Mission.CheckGarbages": "Check Garbages",
-  "Mission.CheckGarbages_Desc": "Lewis has reported valuable items accidentally discarded around town.",
+  "Mission.CheckGarbages_Desc": "Checking trash cans gives a luck boost—makes sense, right?",
   "Mission.CheckGarbages_Objective": "Check {{Amount}} garbage cans",
 
   "Mission.DigArtifactSpots": "Dig Artifact Spots",
-  "Mission.DigArtifactSpots_Desc": "Gunther seeks additional artifacts for the museum collection.",
+  "Mission.DigArtifactSpots_Desc": "Artifacts are more valuable",
   "Mission.DigArtifactSpots_Objective": "Dig {{Amount}} artifact spots",
 
   "Mission.CatchFishes": "Catch Fishes",
-  "Mission.CatchFishes_Desc": "Willy needs help stocking the fish shop inventory.",
-  "Mission.CatchFishes_Objective": "Catch {{Amount}} fish",
+  "Mission.CatchFishes_Desc": "Fishes are more valuable",
+  "Mission.CatchFishes_Objective": "Catch fish successfully {{Amount}} times",
 
   "Mission.CatchFishTreasures": "Catch Fish Treasures",
-  "Mission.CatchFishTreasures_Desc": "Mariner's Association offers rewards for recovered sunken items.",
+  "Mission.CatchFishTreasures_Desc": "Increased chance to get treasure chest while fishing",
   "Mission.CatchFishTreasures_Objective": "Obtain {{Amount}} fishing treasures",
 
   "Mission.CatchGoldenFishTreasures": "Catch Golden Fish Treasures",
-  "Mission.CatchGoldenFishTreasures_Desc": "Legendary golden chests have been spotted in local waters.",
+  "Mission.CatchGoldenFishTreasures_Desc": "Increased chance to get golden treasure chest while fishing",
   "Mission.CatchGoldenFishTreasures_Objective": "Obtain {{Amount}} golden chests",
 
   "Mission.GiveGifts": "Give Gifts",
-  "Mission.GiveGifts_Desc": "Town Friendship Initiative encourages neighborly goodwill.",
+  "Mission.GiveGifts_Desc": "Faster friendship gain with villagers",
   "Mission.GiveGifts_Objective": "Give {{Amount}} gifts",
 
   "Mission.KillMonsters": "Kill Monsters",
-  "Mission.KillMonsters_Desc": "Adventurer's Guild bounty on dangerous cave creatures.",
+  "Mission.KillMonsters_Desc": "Monsters have a chance to drop loot multiple times",
   "Mission.KillMonsters_Objective": "Defeat {{Amount}} monsters",
 
   "Mission.KillHardModeMonsters": "Kill Hard Mode Monsters",
-  "Mission.KillHardModeMonsters_Desc": "Guild Master seeks veteran slayers for special contracts.",
+  "Mission.KillHardModeMonsters_Desc": "Extra chance to drop Qi Gems and Galaxy Souls",
   "Mission.KillHardModeMonsters_Objective": "Defeat {{Amount}} hardmode monsters",
 
   "Mission.ObtainPrismaticShards": "Obtain Prismatic Shards",
-  "Mission.ObtainPrismaticShards_Desc": "Dwarvish scholars seek these rare mineral specimens.",
+  "Mission.ObtainPrismaticShards_Desc": "No current bonus effect",
   "Mission.ObtainPrismaticShards_Objective": "Obtain {{Amount}} prismatic shards",
 
   "Mission.PetAnimals": "Pet Animals",
-  "Mission.PetAnimals_Desc": "Animal Husbandry Association promotes livestock welfare.",
+  "Mission.PetAnimals_Desc": "Faster friendship gain with animals",
   "Mission.PetAnimals_Objective": "Pet {{Amount}} animals",
 
   "Mission.HarvestMoss": "Harvest Moss",
-  "Mission.HarvestMoss_Desc": "The Wizard requires fresh moss for alchemical preparations.",
+  "Mission.HarvestMoss_Desc": "Increased chance for moss to grow, even in the Greenhouse",
   "Mission.HarvestMoss_Objective": "Harvest {{Amount}} moss",
 
   "Mission.ClearWeeds": "Clear Weeds",
-  "Mission.ClearWeeds_Desc": "Town Beautification Committee needs volunteers.",
+  "Mission.ClearWeeds_Desc": "Weeds have an extra chance to drop seeds and Fiber",
   "Mission.ClearWeeds_Objective": "Clear {{Amount}} weeds",
 
   "Mission.PlantWildTrees": "Plant Wild Trees",
-  "Mission.PlantWildTrees_Desc": "Ecological Restoration Project seeks arborists.",
+  "Mission.PlantWildTrees_Desc": "Wild trees grow faster and may instantly mature overnight",
   "Mission.PlantWildTrees_Objective": "Plant {{Amount}} wild trees",
 
   "Mission.PlantFruitTrees": "Plant Fruit Trees",
-  "Mission.PlantFruitTrees_Desc": "Jojamart horticulture division expansion program.",
+  "Mission.PlantFruitTrees_Desc": "Fruit trees grow faster",
   "Mission.PlantFruitTrees_Objective": "Plant {{Amount}} fruit trees"
 }

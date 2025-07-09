@@ -289,7 +289,6 @@ namespace StardropScroll.Content.Mission
                 multiplier += GetLevel(MissionID.DigArtifactSpots);
             if (obj.Category == Object.FishCategory)
                 multiplier += GetLevel(MissionID.CatchFishes);
-
         }
         public static void ExtraFishTreasure(ref bool treasure, ref bool golden)
         {
@@ -297,8 +296,8 @@ namespace StardropScroll.Content.Mission
             Random r = Random.Shared;
             if (!treasure)
                 treasure = r.Next(10) < level;
-            if (treasure /*&& Game1.player.MasteryFishing()*/)
-                golden = r.Next(10) < GetBonusTimes(level, 1);
+            if (treasure && Game1.player.MasteryFishing())
+                golden = r.Next(10) < GetBonusTimes(GetLevel(MissionID.CatchGoldenFishTreasures), 1);
         }
 
         public static void ExtraFriendShip(ref int amount)
@@ -516,6 +515,12 @@ namespace StardropScroll.Content.Mission
             amount = GetBonusTimes(level, 0.25);
             if (amount > 0)
                 debris.Add(new(ItemRegistry.Create(ItemID.MixedFlowerSeeds, amount), pos));
+        }
+
+        public static void ExtraAnimalFriendShip(FarmAnimal animal)
+        {
+            int times = GetBonusTimes(GetLevel(MissionID.PetAnimals), 0.9);
+            animal.friendshipTowardFarmer.Value = Math.Min(1000, animal.friendshipTowardFarmer.Value + 15 * times);
         }
         private static void AddDropCount(this Dictionary<string, int> id_stack, string id, int add = 1)
         {

@@ -3,7 +3,6 @@ using StardewValley;
 using StardropScroll.Helper;
 using StardropScroll.IDs;
 using System.Reflection.Emit;
-using static StardropScroll.Helper.ILHelper;
 
 namespace StardropScroll.Content.Mission.MissionPatches
 {
@@ -28,7 +27,13 @@ namespace StardropScroll.Content.Mission.MissionPatches
                     continue;
                 i += 2;
                 codes.MissionIncrease(ref i, MissionID.PetAnimals);
-                //增加额外好感
+                List<CodeInstruction> list = new()
+                {
+                    new(OpCodes.Ldarg_0),
+                    ILHelper.Call(typeof(MissionBonus),nameof(MissionBonus.ExtraAnimalFriendShip)),
+                };
+                codes.InsertRange(i + 1, list);
+                break;
             }
             return codes;
         }

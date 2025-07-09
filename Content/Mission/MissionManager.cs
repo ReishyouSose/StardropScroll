@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using Newtonsoft.Json;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Extensions;
@@ -9,90 +8,24 @@ using System.Reflection.Emit;
 
 namespace StardropScroll.Content.Mission
 {
-    public struct MissionData
-    {
-        [JsonProperty("target")]
-        public int Target { get; set; }
-
-        [JsonProperty("max")]
-        public int MaxLevel { get; set; }
-
-        [JsonProperty("step")]
-        public int Step { get; set; }
-    }
-    public class Mission
-    {
-        private const string Prefix = "Mission.";
-        private const string Desc = "_Desc";
-        private const string Objective = "_Objective";
-        public string Name { get; set; }
-        public int Current { get; set; }
-        public int Level { get; set; }
-
-        [JsonIgnore]
-        public int Target;
-
-        [JsonIgnore]
-        public MissionData Data { get; private set; }
-
-        [JsonIgnore]
-        public bool Completed => Level >= Data.MaxLevel;
-
-        [JsonIgnore]
-        public bool CanSubmit => Current >= Target;
-
-        public void LoadData(MissionData data)
-        {
-            Data = data;
-            GetTarget();
-        }
-
-        public void NextState()
-        {
-            Current -= Target;
-            Level++;
-            GetTarget();
-        }
-        public string GetName() => I18n.GetByKey(Prefix + Name);
-
-        public string GetDescription() => I18n.GetByKey(Prefix + Name + Desc);
-        public int GetMoneyReward() => (Level + 1) * 500;
-        public void OnMoneyRewardClaimed()
-        {
-
-        }
-        public void OnLeaveQuestPage()
-        {
-
-        }
-
-        public List<(int Current, int Target)> GetObjectives() => new() { (Current, Target) };
-
-        public List<string> GetObjectiveDescriptions() => new()
-        {
-            I18n.GetByKey(Prefix + Name  + Objective, new { Amount = (Target) })
-        };
-
-        public void GetTarget() => Target = Data.Target + Level * Data.Step;
-    }
 
     public static class MissionManager
     {
         public static Dictionary<string, Mission> Missions { get; private set; }
         private static Dictionary<string, int> missionIncrease;
-        private static Dictionary<string, MissionData> missionDatas;
+        private static Dictionary<string, MissionData> datas;
         public static void LoadMissionData()
         {
             missionIncrease = new();
-            missionDatas = Main.ReadJsonFile<Dictionary<string, MissionData>>(Path.Combine("Assets", "MissionDatas.json"));
-            if (missionDatas == null)
+            datas = Main.ReadJsonFile<Dictionary<string, MissionData>>(Path.Combine("Assets", "MissionDatas.json"));
+            if (datas == null)
                 Main.LogError("Failed to load Mission Data!");
         }
 
         public static void LoadData()
         {
             Missions = Main.LoadData<Dictionary<string, Mission>>(Main.UniqueID + ".Missions") ?? new();
-            foreach (var (name, data) in missionDatas)
+            foreach (var (name, data) in datas)
             {
                 if (!Missions.TryGetValue(name, out var mission))
                     Missions.Add(name, mission = new() { Name = name });
@@ -112,7 +45,11 @@ namespace StardropScroll.Content.Mission
             if (!m.CanSubmit)
                 return false;
             if (Game1.IsMasterGame)
+            {
+                Game1.player.Money += m.Money;
+                Game1.playSound("purchaseRepeat", null);
                 m.NextState();
+            }
             Main.NetSend(MissionPack(m.Name), NetMessageID.Mission);
             return true;
         }
@@ -129,18 +66,29 @@ namespace StardropScroll.Content.Mission
                 if (master)
                     SubmitMission(m);
                 else
+                {
+                    Game1.player.Money += m.Money;
+                    Game1.playSound("purchaseRepeat", null);
                     m.NextState();
+                }
                 return;
             }
             if (master)
                 Increase(name, amount);
             else
+            {
                 m.Current += amount;
+                if (m.CanSubmit)
+                {
+                    Game1.playSound("questcomplete", null);
+                    Game1.addHUDMessage(new HUDMessage(I18n.MissionCompleted(m.GetName(), m.Level + 1), 2));
+                }
+            }
         }
 
         public static void Increase(string name, int amount = 1)
         {
-            if (!missionDatas.ContainsKey(name))
+            if (!datas.ContainsKey(name))
             {
                 Main.LogWarn("Error mission name");
                 return;
@@ -158,7 +106,13 @@ namespace StardropScroll.Content.Mission
             {
                 foreach (var (name, add) in missionIncrease)
                 {
-                    Missions[name].Current += add;
+                    Mission m = Missions[name];
+                    m.Current += add;
+                    if (m.CanSubmit)
+                    {
+                        Game1.playSound("questcomplete", null);
+                        I18n.MissionCompleted(m.GetName(), m.Level + 1);
+                    }
                     Main.NetSend(MissionPack(name, add), NetMessageID.Mission);
                 }
             }
