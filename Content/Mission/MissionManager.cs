@@ -14,6 +14,7 @@ namespace StardropScroll.Content.Mission
         public static Dictionary<string, Mission> Missions { get; private set; }
         private static Dictionary<string, int> missionIncrease;
         private static Dictionary<string, MissionData> datas;
+        private static string DataPath => Main.UniqueID + ".Missions";
         public static void LoadMissionData()
         {
             missionIncrease = new();
@@ -24,13 +25,24 @@ namespace StardropScroll.Content.Mission
 
         public static void LoadData()
         {
-            Missions = Main.LoadData<Dictionary<string, Mission>>(Main.UniqueID + ".Missions") ?? new();
+            Missions = Main.LoadData<Dictionary<string, Mission>>(DataPath) ?? new();
+            var keys = Missions.Keys;
+            foreach (var key in keys)
+            {
+                if (!datas.ContainsKey(key))
+                    Missions.Remove(key);
+            }
             foreach (var (name, data) in datas)
             {
                 if (!Missions.TryGetValue(name, out var mission))
                     Missions.Add(name, mission = new() { Name = name });
                 mission.LoadData(data);
             }
+        }
+
+        public static void SaveData()
+        {
+            Main.SaveData(DataPath, Missions);
         }
 
         /// <summary>
@@ -45,11 +57,7 @@ namespace StardropScroll.Content.Mission
             if (!m.CanSubmit)
                 return false;
             if (Game1.IsMasterGame)
-            {
-                Game1.player.Money += m.Money;
-                Game1.playSound("purchaseRepeat", null);
                 m.NextState();
-            }
             Main.NetSend(MissionPack(m.Name), NetMessageID.Mission);
             return true;
         }
@@ -77,12 +85,7 @@ namespace StardropScroll.Content.Mission
                 Increase(name, amount);
             else
             {
-                m.Current += amount;
-                if (m.CanSubmit)
-                {
-                    Game1.playSound("questcomplete", null);
-                    Game1.addHUDMessage(new HUDMessage(I18n.MissionCompleted(m.GetName(), m.Level + 1), 2));
-                }
+                m.Increase(amount);
             }
         }
 
@@ -107,12 +110,7 @@ namespace StardropScroll.Content.Mission
                 foreach (var (name, add) in missionIncrease)
                 {
                     Mission m = Missions[name];
-                    m.Current += add;
-                    if (m.CanSubmit)
-                    {
-                        Game1.playSound("questcomplete", null);
-                        I18n.MissionCompleted(m.GetName(), m.Level + 1);
-                    }
+                    m.Increase(add);
                     Main.NetSend(MissionPack(name, add), NetMessageID.Mission);
                 }
             }

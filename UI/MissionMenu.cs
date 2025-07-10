@@ -36,7 +36,7 @@ namespace StardropScroll.UI
 
         public ClickableTextureComponent cancelMissionButton;
 
-        protected Mission _shownMission;
+        protected Mission focus;
 
         protected List<string> _objectiveText;
 
@@ -210,7 +210,7 @@ namespace StardropScroll.UI
 
         public bool NeedsScroll()
         {
-            return (_shownMission == null || !_shownMission.CanSubmit) && missionPage != -1 && _contentHeight > _scissorRectHeight;
+            return (focus == null || !focus.CanSubmit) && missionPage != -1 && _contentHeight > _scissorRectHeight;
         }
 
         public override void receiveScrollWheelAction(int direction)
@@ -404,9 +404,9 @@ namespace StardropScroll.UI
             if (missionPage != -1)
             {
                 int yOffset = 0;
-                if (missionPage != -1 && _shownMission.CanSubmit && rewardBox.containsPoint(x, y + yOffset))
+                if (missionPage != -1 && focus.CanSubmit && !focus.Claimed && rewardBox.containsPoint(x, y + yOffset))
                 {
-                    _shownMission.OnMoneyRewardClaimed();
+                    focus.OnMoneyRewardClaimed();
                 }
                 else if (!NeedsScroll() || backButton.containsPoint(x, y))
                 {
@@ -451,8 +451,8 @@ namespace StardropScroll.UI
                 {
                     Game1.playSound("smallSelect", null);
                     missionPage = i;
-                    _shownMission = pages[currentPage][i];
-                    _objectiveText = _shownMission.GetObjectiveDescriptions();
+                    focus = pages[currentPage][i];
+                    _objectiveText = focus.GetObjectiveDescriptions();
                     scrollAmount = 0f;
                     SetScrollBarFromAmount();
                     if (Game1.options.SnappyMenus)
@@ -482,7 +482,7 @@ namespace StardropScroll.UI
         public void ExitMissionPage()
         {
             missionPage = -1;
-            _shownMission.OnLeaveQuestPage();
+            focus.OnLeaveQuestPage();
             PaginateMissions();
             Game1.playSound("shwip", null);
             if (Game1.options.SnappyMenus)
@@ -532,19 +532,19 @@ namespace StardropScroll.UI
             }
             else
             {
-                int titleWidth = SpriteText.getWidthOfString(_shownMission.GetName(), 999999);
+                int titleWidth = SpriteText.getWidthOfString(focus.GetName(), 999999);
                 if (titleWidth > width / 2)
                 {
                     drawTextureBox(b, Game1.mouseCursors, new Rectangle(384, 373, 18, 18), xPositionOnScreen, yPositionOnScreen, width, height + 48, Color.White, 4f, true, -1f);
-                    SpriteText.drawStringHorizontallyCenteredAt(b, _shownMission.GetName(), xPositionOnScreen + width / 2, yPositionOnScreen + 32, 999999, -1, 999999, 1f, 0.88f, false, null, 99999);
+                    SpriteText.drawStringHorizontallyCenteredAt(b, focus.GetName(), xPositionOnScreen + width / 2, yPositionOnScreen + 32, 999999, -1, 999999, 1f, 0.88f, false, null, 99999);
                 }
                 else
                 {
                     drawTextureBox(b, Game1.mouseCursors, new Rectangle(384, 373, 18, 18), xPositionOnScreen, yPositionOnScreen, width, height, Color.White, 4f, true, -1f);
-                    SpriteText.drawStringHorizontallyCenteredAt(b, _shownMission.GetName(), xPositionOnScreen + width / 2, yPositionOnScreen + 32, 999999, -1, 999999, 1f, 0.88f, false, null, 99999);
+                    SpriteText.drawStringHorizontallyCenteredAt(b, focus.GetName(), xPositionOnScreen + width / 2, yPositionOnScreen + 32, 999999, -1, 999999, 1f, 0.88f, false, null, 99999);
                 }
                 float extraYOffset = 0f;
-                string description = Game1.parseText(_shownMission.GetDescription(), Game1.dialogueFont, width - 128);
+                string description = Game1.parseText(focus.GetDescription(), Game1.dialogueFont, width - 128);
                 Rectangle cached_scissor_rect = b.GraphicsDevice.ScissorRectangle;
                 Vector2 description_size = Game1.dialogueFont.MeasureString(description);
                 Rectangle scissor_rect = default;
@@ -562,22 +562,22 @@ namespace StardropScroll.UI
                 Game1.graphics.GraphicsDevice.ScissorRectangle = scissor_rect;
                 Utility.drawTextWithShadow(b, description, Game1.dialogueFont, new Vector2(xPositionOnScreen + 64, yPositionOnScreen - scrollAmount + 96f + extraYOffset), Game1.textColor, 1f, -1f, -1, -1, 1f, 3);
                 float yPos = yPositionOnScreen + 96 + description_size.Y + 32f - scrollAmount + extraYOffset;
-                if (_shownMission.CanSubmit)
+                if (focus.CanSubmit)
                 {
                     b.End();
                     b.GraphicsDevice.ScissorRectangle = cached_scissor_rect;
                     b.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, null);
                     SpriteText.drawString(b, Game1.content.LoadString("Strings\\StringsFromCSFiles:QuestLog.cs.11376"), xPositionOnScreen + 32 + 4, rewardBox.bounds.Y + 21 + 4 + (int)extraYOffset, 999999, -1, 999999, 1f, 0.88f, false, -1, "", null, SpriteText.ScrollTextAlignment.Left);
                     rewardBox.draw(b, Color.White, 0.9f, 0, 0, (int)extraYOffset);
-                    if (!_shownMission.Claimed)
+                    if (!focus.Claimed)
                     {
                         b.Draw(Game1.mouseCursors, new Vector2(rewardBox.bounds.X + 16, rewardBox.bounds.Y + 16 - Game1.dialogueButtonScale / 2f + extraYOffset), new Rectangle?(new Rectangle(280, 410, 16, 16)), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 1f);
-                        SpriteText.drawString(b, Game1.content.LoadString("Strings\\StringsFromCSFiles:LoadGameMenu.cs.11020", _shownMission.Money), xPositionOnScreen + 448, rewardBox.bounds.Y + 21 + 4 + (int)extraYOffset, 999999, -1, 999999, 1f, 0.88f, false, -1, "", null, SpriteText.ScrollTextAlignment.Left);
-}
+                        SpriteText.drawString(b, Game1.content.LoadString("Strings\\StringsFromCSFiles:LoadGameMenu.cs.11020", focus.Money), xPositionOnScreen + 448, rewardBox.bounds.Y + 21 + 4 + (int)extraYOffset, 999999, -1, 999999, 1f, 0.88f, false, -1, "", null, SpriteText.ScrollTextAlignment.Left);
+                    }
                 }
                 else
                 {
-                    var objectives = _shownMission.GetObjectives();
+                    var objectives = focus.GetObjectives();
                     for (int j = 0; j < _objectiveText.Count; j++)
                     {
                         string text = _objectiveText[j];

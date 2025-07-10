@@ -5,7 +5,8 @@
   "Config.ReplaceUnstackable": "Replace Unstackable",
   "Config.ReplaceUnstackable_Desc": "Replace unstackable items with golden coins for monster drops",
   "Mission": "Mission",
-  "MissionCompleted": "Mission {{name}} Lv.{{level}} has been completed",
+  "MissionNextLevel": "Next Level ",
+  "MissionCompleted": "Mission {{name}} has been completed",
 
   "Mission.CutTrees": "Cut Trees",
   "Mission.CutTrees_Desc": "Cut trees have a chance to drop loot multiple times",
