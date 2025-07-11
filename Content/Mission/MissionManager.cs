@@ -94,11 +94,13 @@ namespace StardropScroll.Content.Mission
 
         public static void Increase(string name, int amount = 1)
         {
-            if (!datas.ContainsKey(name))
+            if (!Missions.TryGetValue(name,out var m))
             {
                 Main.LogWarn("Error mission name");
                 return;
             }
+            if (m.Completed)
+                return;
             missionIncrease.TryGetValue(name, out int add);
             missionIncrease[name] = add + amount;
             Main.Log($"{name} add {amount}");

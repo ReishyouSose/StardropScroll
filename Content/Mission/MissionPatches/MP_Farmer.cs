@@ -23,13 +23,6 @@ namespace StardropScroll.Content.Mission.MissionPatches
             }
         }
 
-        [HarmonyPatch("get_LuckLevel")]
-        [HarmonyPostfix]
-        private static void Get_LuckLevel(ref int __result)
-        {
-            __result += MissionManager.GetLevel(MissionID.CheckGarbages);
-        }
-
         [HarmonyPatch(nameof(Farmer.changeFriendship))]
         [HarmonyPrefix]
         private static void ChangeFriendship(ref int amount)

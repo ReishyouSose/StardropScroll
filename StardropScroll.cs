@@ -33,6 +33,7 @@ namespace StardropScroll
         private void GameLoop_DayStarted(object? sender, DayStartedEventArgs e)
         {
             MissionManager.GrantRewards();
+            MissionBonus.RefreshBuffs();
         }
 
         private void GameLoop_Saving(object? sender, SavingEventArgs e)

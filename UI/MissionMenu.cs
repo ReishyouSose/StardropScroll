@@ -522,7 +522,7 @@ namespace StardropScroll.UI
                         {
                             Utility.drawWithShadow(b, Game1.mouseCursors, new Vector2(button.bounds.X + 64 + 4, button.bounds.Y + 44), new Rectangle(341, 410, 23, 9), Color.White, 0f, new Vector2(11f, 4f), 4f + Game1.dialogueButtonScale * 10f / 250f, false, 0.99f, -1, -1, 0.35f);
                         }
-                        else
+                        else if (!mission.Completed)
                         {
                             Utility.drawWithShadow(b, Game1.mouseCursors, new Vector2(button.bounds.X + 32, button.bounds.Y + 28), new Rectangle(395, 497, 3, 8), Color.White, 0f, Vector2.Zero, 4f, false, 0.99f, -1, -1, 0.35f);
                         }

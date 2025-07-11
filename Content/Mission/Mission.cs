@@ -45,7 +45,7 @@ namespace StardropScroll.Content.Mission
         public bool Completed => Level >= Data.MaxLevel;
 
         [JsonIgnore]
-        public bool CanSubmit => Current >= Target;
+        public bool CanSubmit => Current >= Target && !Completed;
 
         public void LoadData(MissionData data)
         {
@@ -62,6 +62,7 @@ namespace StardropScroll.Content.Mission
             GetTarget();
             CheckProgress();
             MissionManager.AddReward(this);
+            MissionBonus.RefreshBuffs();
         }
         public string GetName() => I18n.GetByKey(Prefix + Name) + $" Lv.{Level}";
 

@@ -62,5 +62,8 @@ namespace StardropScroll.IDs
 
         /// <summary>种植果树</summary>
         public const string PlantFruitTrees = nameof(PlantFruitTrees);
+
+        /// <summary>奔跑训练</summary>
+        public const string RunTrain = nameof(RunTrain);
     }
 }

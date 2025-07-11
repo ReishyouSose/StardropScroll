@@ -6,6 +6,7 @@
   "Config.ReplaceUnstackable_Desc": "Replace unstackable items with golden coins for monster drops",
   "Mission": "Mission",
   "Mission.Reward": "These are the rewards for missions completed yesterday",
+  "Mission.Buff": "Mission Buffs",
   "MissionNextLevel": "Next Level ",
   "MissionCompleted": "Mission {{name}} has been completed",
 
@@ -83,5 +84,9 @@
 
   "Mission.PlantFruitTrees": "Plant Fruit Trees",
   "Mission.PlantFruitTrees_Desc": "Fruit trees grow faster",
-  "Mission.PlantFruitTrees_Objective": "Plant {{Amount}} fruit trees"
+  "Mission.PlantFruitTrees_Objective": "Plant {{Amount}} fruit trees",
+
+  "Mission.RunTrain": "Run Train",
+  "Mission.RunTrain_Desc": "Runing faster",
+  "Mission.RunTrain_Objective": "Run {{Amount}} steps"
 }

@@ -6,6 +6,7 @@
   "Config.ReplaceUnstackable_Desc": "将怪物掉落中不可堆叠的物品替换为金币",
   "Mission": "课题",
   "Mission.Reward": "这些是昨天完成的课程的奖励",
+  "Mission.Buff": "Mission Buffs",
   "MissionNextLevel": "下一级 ",
   "MissionCompleted": "课题 {{name}} 已完成",
 
@@ -83,5 +84,9 @@
 
   "Mission.PlantFruitTrees": "种植果树",
   "Mission.PlantFruitTrees_Desc": "果树生长速度更快",
-  "Mission.PlantFruitTrees_Objective": "种植{{Amount}}棵果树"
+  "Mission.PlantFruitTrees_Objective": "种植{{Amount}}棵果树",
+
+  "Mission.RunTrain": "奔跑训练",
+  "Mission.RunTrain_Desc": "跑得更快",
+  "Mission.RunTrain_Objective": "奔跑{{Amount}}步"
 }

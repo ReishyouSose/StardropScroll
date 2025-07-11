@@ -522,6 +522,23 @@ namespace StardropScroll.Content.Mission
             int times = GetBonusTimes(GetLevel(MissionID.PetAnimals), 0.9);
             animal.friendshipTowardFarmer.Value = Math.Min(1000, animal.friendshipTowardFarmer.Value + 15 * times);
         }
+
+        public static void RefreshBuffs()
+        {
+            Game1.player.buffs.Apply(new(I18n.Mission_Buff(), duration: Buff.ENDLESS, effects: new()
+            {
+                FarmingLevel = { GetLevel(MissionID.PlantCrops) },
+                MiningLevel = { GetLevel(MissionID.MineStones) },
+                ForagingLevel = { GetLevel(MissionID.ForageItems) },
+                FishingLevel = { GetLevel(MissionID.CatchFishes) },
+                CombatLevel = { GetLevel(MissionID.KillMonsters) },
+                LuckLevel = { GetLevel(MissionID.CheckGarbages) },
+                Speed = { GetLevel(MissionID.RunTrain) / 5f },
+
+            })
+            { visible = false });
+
+        }
         private static void AddDropCount(this Dictionary<string, int> id_stack, string id, int add = 1)
         {
             id_stack.TryGetValue(id, out int stack);
