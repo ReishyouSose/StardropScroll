@@ -5,6 +5,7 @@ using StardewValley.Extensions;
 using StardropScroll.Helper;
 using StardropScroll.IDs;
 using System.Reflection.Emit;
+using System.Text;
 
 namespace StardropScroll.Content.Mission
 {
@@ -14,9 +15,11 @@ namespace StardropScroll.Content.Mission
         public static Dictionary<string, Mission> Missions { get; private set; }
         private static Dictionary<string, int> missionIncrease;
         private static Dictionary<string, MissionData> datas;
+        private static Dictionary<string, int> rewards;
         private static string DataPath => Main.UniqueID + ".Missions";
         public static void LoadMissionData()
         {
+            rewards = new();
             missionIncrease = new();
             datas = Main.ReadJsonFile<Dictionary<string, MissionData>>(Path.Combine("Assets", "MissionDatas.json"));
             if (datas == null)
@@ -160,6 +163,32 @@ namespace StardropScroll.Content.Mission
                     break;
             }
             return amount;
+        }
+
+        /// <summary>
+        /// 于课程完成后调用
+        /// </summary>
+        /// <param name="m"></param>
+        public static void AddReward(Mission m)
+        {
+            string item = m.Level % 5 == 0 ? ItemID.StardropTea : ItemID.PrizeTicket;
+            rewards.TryGetValue(item, out int stack);
+            rewards[item] = stack + 1;
+        }
+
+        public static void GrantRewards()
+        {
+            if (rewards.Any())
+            {
+                StringBuilder mail = new(I18n.Mission_Reward());
+                foreach (var (item, stack) in rewards)
+                {
+                    mail.Append($"%item object {item} {stack} %% ^");
+                }
+                Game1.content.Load<Dictionary<string, string>>("Data/mail")[DataPath] = mail.ToString();
+                Game1.player.mailbox.Add(DataPath);
+                rewards.Clear();
+            }
         }
     }
 }

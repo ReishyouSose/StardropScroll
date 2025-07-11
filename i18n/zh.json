@@ -5,6 +5,7 @@
   "Config.ReplaceUnstackable": "替换不可堆叠物品",
   "Config.ReplaceUnstackable_Desc": "将怪物掉落中不可堆叠的物品替换为金币",
   "Mission": "课题",
+  "Mission.Reward": "这些是昨天完成的课程的奖励",
   "MissionNextLevel": "下一级 ",
   "MissionCompleted": "课题 {{name}} 已完成",
 

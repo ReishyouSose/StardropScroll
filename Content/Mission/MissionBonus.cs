@@ -70,7 +70,7 @@ namespace StardropScroll.Content.Mission
             }
             return extraWood;
         }
-        public static void ExtraGrow(HoeDirt dirt)
+        public static void ExtraCropGrow(HoeDirt dirt)
         {
             int level = MissionManager.GetLevel(MissionID.PlantCrops);
             if (level <= 0)
@@ -80,7 +80,7 @@ namespace StardropScroll.Content.Mission
             bool ignore = dirt.hasPaddyCrop() && dirt.paddyWaterCheck(true);
             if (ignore || dirt.state.Value == 1)
             {
-                int amount = MissionManager.GetBonusTimes(level, 0.75, 0.9, RandomHelper.ByDayPlays());
+                int amount = MissionManager.GetBonusTimes(level, 0.75, 0.9, RandomHelper.ByDayPlays(MissionID.PlantCrops.GetHashCode()));
                 for (int i = 0; i < amount; i++)
                     dirt.crop.newDay(1);
             }
@@ -494,7 +494,7 @@ namespace StardropScroll.Content.Mission
         {
             //t.growthRate 这玩意基于树苗星级，也就是种的更久的树重新长得更快那个设定
             int level = GetLevel(MissionID.PlantFruitTrees);
-            t.daysUntilMature.Value -= GetBonusTimes(level, 0.167, 0.833, RandomHelper.ByDayPlays());
+            t.daysUntilMature.Value -= GetBonusTimes(level, 0.167, 0.833, RandomHelper.ByDayPlays(MissionID.PlantFruitTrees.GetHashCode()));
         }
 
         public static void ExtraWeedsDrop(Object o)

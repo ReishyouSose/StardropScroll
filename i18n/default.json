@@ -5,6 +5,7 @@
   "Config.ReplaceUnstackable": "Replace Unstackable",
   "Config.ReplaceUnstackable_Desc": "Replace unstackable items with golden coins for monster drops",
   "Mission": "Mission",
+  "Mission.Reward": "These are the rewards for missions completed yesterday",
   "MissionNextLevel": "Next Level ",
   "MissionCompleted": "Mission {{name}} has been completed",
 

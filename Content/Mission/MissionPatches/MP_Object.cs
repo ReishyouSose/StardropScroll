@@ -1,8 +1,6 @@
 ﻿using HarmonyLib;
 using StardewValley;
-using StardropScroll.Helper;
 using StardropScroll.IDs;
-using System.Reflection.Emit;
 using StardewO = StardewValley.Object;
 
 namespace StardropScroll.Content.Mission.MissionPatches
@@ -12,7 +10,7 @@ namespace StardropScroll.Content.Mission.MissionPatches
     {
         [HarmonyPatch(nameof(StardewO.placementAction))]
         [HarmonyPostfix]
-        private static void PlacementAction(StardewO __instance,GameLocation location,int x,int y,Farmer who, bool __result)
+        private static void PlacementAction(StardewO __instance, GameLocation location, int x, int y, Farmer who, bool __result)
         {
             if (!__result)
                 return;
@@ -33,10 +31,10 @@ namespace StardropScroll.Content.Mission.MissionPatches
 
         [HarmonyPatch(nameof(StardewO.cutWeed))]
         [HarmonyPrefix]
-        private static void CutWeed(StardewO __instance,Farmer who)
+        private static void CutWeed(StardewO __instance, Farmer who)
         {
-                    MissionManager.Increase(MissionID.ClearWeeds);
-                    MissionBonus.ExtraWeedsDrop(__instance);
+            MissionManager.Increase(MissionID.ClearWeeds);
+            MissionBonus.ExtraWeedsDrop(__instance);
         }
     }
 }

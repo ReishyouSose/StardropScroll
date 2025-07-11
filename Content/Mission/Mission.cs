@@ -61,6 +61,7 @@ namespace StardropScroll.Content.Mission
             Notified = false;
             GetTarget();
             CheckProgress();
+            MissionManager.AddReward(this);
         }
         public string GetName() => I18n.GetByKey(Prefix + Name) + $" Lv.{Level}";
 

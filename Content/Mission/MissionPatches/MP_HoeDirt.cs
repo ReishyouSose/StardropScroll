@@ -22,7 +22,7 @@ namespace StardropScroll.Content.Mission.MissionPatches
         [HarmonyPostfix]
         private static void DayUpdate(HoeDirt __instance)
         {
-            MissionBonus.ExtraGrow(__instance);
+            MissionBonus.ExtraCropGrow(__instance);
         }
     }
 }
