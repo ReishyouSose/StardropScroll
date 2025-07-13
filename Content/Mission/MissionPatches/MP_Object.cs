@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 using StardewValley;
+using StardropScroll.Helper;
 using StardropScroll.IDs;
+using System.Reflection.Emit;
 using StardewO = StardewValley.Object;
 
 namespace StardropScroll.Content.Mission.MissionPatches
@@ -17,7 +19,7 @@ namespace StardropScroll.Content.Mission.MissionPatches
             if (__instance.IsWildTreeSapling())
                 MissionManager.Increase(MissionID.PlantWildTrees);
             if (__instance.IsFruitTreeSapling())
-                MissionManager.Increase(MissionID.PlantWildTrees);
+                MissionManager.Increase(MissionID.PlantFruitTrees);
         }
 
         [HarmonyPatch("getPriceAfterMultipliers")]
@@ -29,12 +31,55 @@ namespace StardropScroll.Content.Mission.MissionPatches
             __result = startPrice * multiplier;
         }
 
-        [HarmonyPatch(nameof(StardewO.cutWeed))]
-        [HarmonyPrefix]
-        private static void CutWeed(StardewO __instance, Farmer who)
+        [HarmonyPatch(nameof(StardewO.onExplosion))]
+        [HarmonyTranspiler]
+        private static List<CodeInstruction> OnExplosion(IEnumerable<CodeInstruction> instructions)
         {
-            MissionManager.Increase(MissionID.ClearWeeds);
-            MissionBonus.ExtraWeedsDrop(__instance);
+            var codes = instructions.ToList();
+            for (int i = 0; i < codes.Count; i++)
+            {
+                var code = codes[i];
+                if (code.opcode != OpCodes.Callvirt)
+                    continue;
+                if (!code.Contains("cutWeed"))
+                    continue;
+                codes.MissionIncrease(ref i, MissionID.ClearWeeds);
+                List<CodeInstruction> list = new()
+                {
+                    new(OpCodes.Ldarg_0),
+                    new(OpCodes.Ldarg_1),
+                    ILHelper.Call(typeof(MissionBonus), nameof(MissionBonus.ExtraWeedsDrop))
+                };
+                codes.InsertRange(i + 1, list);
+                break;
+            }
+            return codes;
+        }
+
+        [HarmonyPatch(nameof(StardewO.performToolAction))]
+        [HarmonyTranspiler]
+        private static List<CodeInstruction> PerformToolAction(IEnumerable<CodeInstruction> instructions)
+        {
+            var codes = instructions.ToList();
+            for (int i = 0; i < codes.Count; i++)
+            {
+                var code = codes[i];
+                if (code.opcode != OpCodes.Callvirt)
+                    continue;
+                if (!code.Contains("cutWeed"))
+                    continue;
+                codes.MissionIncrease(ref i, MissionID.ClearWeeds);
+                List<CodeInstruction> list = new()
+                {
+                    new(OpCodes.Ldarg_0),
+                    new(OpCodes.Ldarg_1),
+                    ILHelper.Call(typeof(Tool), nameof(Tool.getLastFarmerToUse), code: OpCodes.Callvirt),
+                    ILHelper.Call(typeof(MissionBonus), nameof(MissionBonus.ExtraWeedsDrop))
+                };
+                codes.InsertRange(i + 1, list);
+                break;
+            }
+            return codes;
         }
     }
 }

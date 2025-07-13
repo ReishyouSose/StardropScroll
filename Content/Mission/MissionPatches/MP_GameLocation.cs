@@ -5,7 +5,6 @@ using StardewValley.Monsters;
 using StardropScroll.Helper;
 using StardropScroll.IDs;
 using System.Reflection.Emit;
-using StardewO = StardewValley.Object;
 
 namespace StardropScroll.Content.Mission.MissionPatches
 {
@@ -130,20 +129,14 @@ namespace StardropScroll.Content.Mission.MissionPatches
             return codes;
         }
 
+
         [HarmonyPatch(nameof(GameLocation.CheckGarbage))]
-        [HarmonyTranspiler]
-        private static List<CodeInstruction> CheckGarbage(IEnumerable<CodeInstruction> instructions)
+        [HarmonyPostfix]
+        private static void CheckTarbage(bool __result)
         {
-            var codes = instructions.ToList();
-            for (int i = 0; i < codes.Count; i++)
-            {
-                var code = codes[i];
-                if (code.opcode != OpCodes.Callvirt || code.Contains("Increament"))
-                    continue;
-                codes.MissionIncrease(ref i, MissionID.CheckGarbages);
-                //添加新的垃圾桶战利品
-            }
-            return codes;
+            if (__result)
+                MissionManager.Increase(MissionID.CheckGarbages);
+            //TODO: 这玩意需要检查，有问题
         }
 
         [HarmonyPatch(nameof(GameLocation.checkForBuriedItem))]
@@ -195,7 +188,7 @@ namespace StardropScroll.Content.Mission.MissionPatches
         private static void BreakStone(GameLocation __instance, string stoneId, int x, int y, Farmer who, Random r)
         {
             MissionManager.Increase(MissionID.MineStones);
-            MissionBonus.ExtraVine(__instance, stoneId, x, y, r);
+            MissionBonus.ExtraVein(__instance, stoneId, x, y, who, r);
         }
     }
 }

@@ -9,5 +9,6 @@ namespace StardropScroll.IDs
     public static class NetMessageID
     {
         public const int Mission = 0;
+        public const int SendStarDropTea = 1;
     }
 }

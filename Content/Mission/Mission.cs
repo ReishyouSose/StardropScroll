@@ -51,6 +51,10 @@ namespace StardropScroll.Content.Mission
         {
             Data = data;
             GetTarget();
+            if (data.MaxLevel == Level)
+            {
+                Claimed = true;
+            }
         }
 
         public void NextState()
@@ -84,12 +88,21 @@ namespace StardropScroll.Content.Mission
             }
         }
 
-        public List<(int Current, int Target)> GetObjectives() => new() { (Current, Target) };
-
-        public List<string> GetObjectiveDescriptions() => new()
+        public List<(int Current, int Target)> GetObjectives()
         {
-            I18n.MissionNextLevel() + I18n.GetByKey(Prefix + Name + Objective, new { Amount = Target })
-        };
+            if (Completed)
+                return new() { (0, 0) };
+            return new() { (Current, Target) };
+        }
+
+        public List<string> GetObjectiveDescriptions()
+        {
+            return new()
+            {
+                I18n.MissionNextLevel() + I18n.GetByKey(Prefix + Name + Objective,
+                    new { Amount = Completed ? 0 : Target })
+            };
+        }
 
         public void GetTarget()
         {

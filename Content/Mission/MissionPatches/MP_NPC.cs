@@ -9,7 +9,7 @@ namespace StardropScroll.Content.Mission.MissionPatches
     {
         [HarmonyPatch(nameof(NPC.receiveGift))]
         [HarmonyPrefix]
-        private static void ReceiveGift(NPC __instance, StardewValley.Object o, Farmer giver, bool updateGiftLimitInfo, float friendshipChangeMultiplier, bool showResponse)
+        private static bool ReceiveGift(NPC __instance, StardewValley.Object o, Farmer giver, bool updateGiftLimitInfo, float friendshipChangeMultiplier, bool showResponse)
         {
             NPC npc = __instance;
             if (npc.CanReceiveGifts())
@@ -29,11 +29,13 @@ namespace StardropScroll.Content.Mission.MissionPatches
                         break;
                     case 7:
                         MissionManager.Increase(MissionID.GiveGifts);
+                        MissionBonus.GiveStardropTeaEvent(npc.Name, giver);
                         break;
                     default:
                         break;
                 }
             }
+            return true;
         }
 
     }

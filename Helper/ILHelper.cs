@@ -11,8 +11,8 @@ namespace StardropScroll.Helper
         /// </summary>
         /// <returns></returns>
         public static CodeInstruction Instance() => new(OpCodes.Ldarg_0);
-        public static CodeInstruction Call(Type type, string methodName, Type[] parameters = null, Type[] generics = null)
-            => new(OpCodes.Call, AccessTools.Method(type, methodName, parameters, generics));
+        public static CodeInstruction Call(Type type, string methodName, Type[] parameters = null, Type[] generics = null,OpCode? code=null)
+            => new(code?? OpCodes.Call, AccessTools.Method(type, methodName, parameters, generics));
         public static bool Contains(this CodeInstruction code, string methodName)
             => code.operand.ToString().Contains(methodName);
         public static CodeInstruction Int(int value)

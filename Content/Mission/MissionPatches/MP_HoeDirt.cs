@@ -19,7 +19,7 @@ namespace StardropScroll.Content.Mission.MissionPatches
         }
 
         [HarmonyPatch(nameof(HoeDirt.dayUpdate))]
-        [HarmonyPostfix]
+        [HarmonyPrefix]
         private static void DayUpdate(HoeDirt __instance)
         {
             MissionBonus.ExtraCropGrow(__instance);

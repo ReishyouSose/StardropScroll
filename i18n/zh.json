@@ -3,12 +3,13 @@
   "Config.OpenMenu_Desc": "打开献祭菜单",
   "Config.DebugMod": "Debug Mode",
   "Config.ReplaceUnstackable": "替换不可堆叠物品",
-  "Config.ReplaceUnstackable_Desc": "将怪物掉落中不可堆叠的物品替换为金币",
+  "Config.ReplaceUnstackable_Desc": "将多倍掉落中不可堆叠的物品替换为金币",
   "Mission": "课题",
   "Mission.Reward": "这些是昨天完成的课程的奖励",
   "Mission.Buff": "Mission Buffs",
   "MissionNextLevel": "下一级 ",
   "MissionCompleted": "课题 {{name}} 已完成",
+  "MissionCompleted_Objective": "已满级!",
 
   "Mission.CutTrees": "砍伐树木",
   "Mission.CutTrees_Desc": "砍倒树时有概率掉落多倍木材",
@@ -52,7 +53,7 @@
 
   "Mission.GiveGifts": "赠送礼物",
   "Mission.GiveGifts_Desc": "与村民的好感度增长更快",
-  "Mission.GiveGifts_Objective": "赠送{{Amount}}份礼物",
+  "Mission.GiveGifts_Objective": "赠送{{Amount}}份喜欢及以上礼物",
 
   "Mission.KillMonsters": "消灭怪物",
   "Mission.KillMonsters_Desc": "怪物有概率掉落多倍战利品",

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StardropScroll.IDs
 {
-    public static class TypeDefinitionID
+    public static class ItemDefinitionID
     {
         /// <summary>物体</summary>
         public const string Object = "(O)";

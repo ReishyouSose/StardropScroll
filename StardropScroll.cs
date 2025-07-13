@@ -2,6 +2,7 @@
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using StardropScroll.Common;
 using StardropScroll.Config;
 using StardropScroll.Content.Mission;
 using StardropScroll.Helper;
@@ -45,17 +46,7 @@ namespace StardropScroll
         {
             if (e.FromModID == ModManifest.UniqueID)
             {
-                if (!int.TryParse(e.Type, out int messageID))
-                {
-                    Main.LogWarn("Net receive error");
-                    return;
-                }
-                switch (messageID)
-                {
-                    case NetMessageID.Mission:
-                        MissionManager.NetReceive(e);
-                        break;
-                }
+                NetPackage.HandleNetPackages(sender, e);
             }
         }
 

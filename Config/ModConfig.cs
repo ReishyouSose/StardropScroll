@@ -7,6 +7,6 @@ namespace StardropScroll.Config
     {
         public bool DebugMode { get; set; } = true;
         public bool ReplaceUnStackable { get; set; } = false;
-        public KeybindList OpenMenu { get; set; } = new(StardewModdingAPI.SButton.Home);
+        public KeybindList OpenMenu { get; set; } = new(SButton.Home);
     }
 }

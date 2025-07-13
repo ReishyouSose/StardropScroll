@@ -3,12 +3,13 @@
   "Config.OpenMenu_Desc": "Open the Sacrifice Menu",
   "Config.DebugMod": "Debug Mode",
   "Config.ReplaceUnstackable": "Replace Unstackable",
-  "Config.ReplaceUnstackable_Desc": "Replace unstackable items with golden coins for monster drops",
+  "Config.ReplaceUnstackable_Desc": "Replace unstackable items with golden coins for multipler times drops",
   "Mission": "Mission",
   "Mission.Reward": "These are the rewards for missions completed yesterday",
   "Mission.Buff": "Mission Buffs",
   "MissionNextLevel": "Next Level ",
   "MissionCompleted": "Mission {{name}} has been completed",
+  "MissionCompleted_Objective": "Level Max!",
 
   "Mission.CutTrees": "Cut Trees",
   "Mission.CutTrees_Desc": "Cut trees have a chance to drop loot multiple times",
@@ -52,7 +53,7 @@
 
   "Mission.GiveGifts": "Give Gifts",
   "Mission.GiveGifts_Desc": "Faster friendship gain with villagers",
-  "Mission.GiveGifts_Objective": "Give {{Amount}} gifts",
+  "Mission.GiveGifts_Objective": "Give {{Amount}} gifts of like or above",
 
   "Mission.KillMonsters": "Kill Monsters",
   "Mission.KillMonsters_Desc": "Monsters have a chance to drop loot multiple times",
@@ -75,7 +76,7 @@
   "Mission.HarvestMoss_Objective": "Harvest {{Amount}} moss",
 
   "Mission.ClearWeeds": "Clear Weeds",
-  "Mission.ClearWeeds_Desc": "Weeds have an extra chance to drop seeds and Fiber",
+  "Mission.ClearWeeds_Desc": "Weeds have a chance to drop loot multiple times",
   "Mission.ClearWeeds_Objective": "Clear {{Amount}} weeds",
 
   "Mission.PlantWildTrees": "Plant Wild Trees",

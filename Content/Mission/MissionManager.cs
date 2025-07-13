@@ -150,7 +150,7 @@ namespace StardropScroll.Content.Mission
 
         public static int GetBonusTimes(int level, double init, double fix = 0.95, Random r = null, bool failureBreak = false)
         {
-            r ??= Random.Shared;
+            r ??= Game1.random;
             int amount = 0;
             bool successOnce = false;
             for (int i = 0; i < level; i++)

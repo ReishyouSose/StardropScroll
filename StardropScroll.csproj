@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Content\Items\" />
     <Folder Include="Patches\" />
   </ItemGroup>
 

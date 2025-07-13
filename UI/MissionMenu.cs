@@ -116,6 +116,7 @@ namespace StardropScroll.UI
                 populateClickableComponentList();
                 snapToDefaultClickableComponent();
             }
+            exitFunction += CheckClaimed;
         }
 
         protected override void customSnapBehavior(int direction, int oldRegion, int oldID)
@@ -506,7 +507,6 @@ namespace StardropScroll.UI
             {
                 b.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds, Color.Black * 0.75f);
             }
-            //SpriteText.drawStringWithScrollCenteredAt(b, Game1.content.LoadString("Strings\\StringsFromCSFiles:QuestLog.cs.11373"), xPositionOnScreen + width / 2, yPositionOnScreen - 64, "", 1f, null, 0, 0.88f, false);
             SpriteText.drawStringWithScrollCenteredAt(b, I18n.Mission(), xPositionOnScreen + width / 2, yPositionOnScreen - 64, "", 1f, null, 0, 0.88f, false);
             if (missionPage == -1)
             {
@@ -624,7 +624,7 @@ namespace StardropScroll.UI
                         b.Draw(Game1.mouseCursors2, new Rectangle(bar_draw_position.X, bar_draw_position.Y, slice_width * 4, bar_draw_position.Height), new Rectangle?(new Rectangle(bar_background_source.X, bar_background_source.Y, slice_width, bar_background_source.Height)), Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.5f);
                         b.Draw(Game1.mouseCursors2, new Rectangle(bar_draw_position.X + slice_width * 4, bar_draw_position.Y, bar_draw_position.Width - 2 * slice_width * 4, bar_draw_position.Height), new Rectangle?(new Rectangle(bar_background_source.X + slice_width, bar_background_source.Y, bar_background_source.Width - 2 * slice_width, bar_background_source.Height)), Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.5f);
                         b.Draw(Game1.mouseCursors2, new Rectangle(bar_draw_position.Right - slice_width * 4, bar_draw_position.Y, slice_width * 4, bar_draw_position.Height), new Rectangle?(new Rectangle(bar_background_source.Right - slice_width, bar_background_source.Y, slice_width, bar_background_source.Height)), Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.5f);
-                        float mission_progress = current / (float)target;
+                        float mission_progress = target == 0 ? 1 : (current / (float)target);
                         bar_draw_position.X += 4 * bar_horizontal_padding;
                         bar_draw_position.Width -= 4 * bar_horizontal_padding * 2;
                         for (int k = 1; k < notches; k++)
@@ -678,6 +678,19 @@ namespace StardropScroll.UI
             if (hoverText.Length > 0)
             {
                 drawHoverText(b, hoverText, Game1.dialogueFont, 0, 0, -1, null, -1, null, null, 0, null, -1, -1, -1, 1f, null, null, null, null, null, null, 1f, -1, -1);
+            }
+        }
+        public void CheckClaimed()
+        {
+            foreach (var page in pages)
+            {
+                foreach (var m in page)
+                {
+                    if (m.Claimed)
+                    {
+                        MissionManager.SubmitMission(m);
+                    }
+                }
             }
         }
     }
