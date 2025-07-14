@@ -103,7 +103,7 @@ namespace StardropScroll.Content.Mission
                 return;
             missionIncrease.TryGetValue(name, out int add);
             missionIncrease[name] = add + amount;
-            Main.Log($"{name} add {amount}");
+            //Main.Log($"{name} add {amount}");
         }
 
         public static void CheckIncrease(object? sender, OneSecondUpdateTickedEventArgs e)

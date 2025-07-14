@@ -14,8 +14,16 @@ namespace StardropScroll.Content.Mission
 {
     public static class MissionBonus
     {
+        private static bool instantCrop;
+        private static int extraCrop;
+        private static int fruit;
         public static int GetLevel(string name) => MissionManager.GetLevel(name);
-        public static int GetBonusTimes(int level, double init, double fix = 0.95, Random r = null, bool failureBreak = false) => MissionManager.GetBonusTimes(level, init, fix, r, failureBreak);
+        public static int GetBonusTimes(int level, double init, double fix = 0.95, Random r = null, bool failureBreak = false)
+        {
+            int times = MissionManager.GetBonusTimes(level, init, fix, r, failureBreak);
+            //Main.Log($"Roll bonus {times}");
+            return times;
+        }
         public static void ExtraClay(GameLocation location, int x, int y, Farmer who)
         {
             int count = GetBonusTimes(GetLevel(MissionID.HoeDirts), 0.25);
@@ -41,7 +49,7 @@ namespace StardropScroll.Content.Mission
             var tile = tree.Tile.ToPoint();
             int amount = 12 + ExtraWoodCalculator(tile, tree.treeType.Value);
             amount *= GetBonusTimes(level, 0.9);
-            ItemHelper.CreateDroppedItem(ItemID.Wood, new(tile.X + (tree.shakeLeft.Value ? -4 : 4), tile.Y), tree.Location, amount);
+            ItemHelper.CreateDroppedItem(ItemID.Wood, tile.X + (tree.shakeLeft.Value ? -4 : 4), tile.Y, tree.Location, amount);
         }
 
         private static int ExtraWoodCalculator(Point tileLocation, string treeType)
@@ -70,19 +78,28 @@ namespace StardropScroll.Content.Mission
             }
             return extraWood;
         }
+
         public static void ExtraCropGrow(HoeDirt dirt)
         {
-            int level = MissionManager.GetLevel(MissionID.PlantCrops);
-            if (level <= 0)
+            var crop = dirt.crop;
+            if (crop == null)
                 return;
-            if (dirt.crop == null)
+            if (crop.fullyGrown.Value)
                 return;
+            if (instantCrop)
+            {
+                while (!crop.fullyGrown.Value)
+                {
+                    crop.newDay(1);
+                }
+                return;
+            }
             bool ignore = dirt.hasPaddyCrop() && dirt.paddyWaterCheck(true);
             if (ignore || dirt.state.Value == 1)
             {
-                int amount = GetBonusTimes(level, 0.75, 0.9, RandomHelper.ByDayPlays(MissionID.PlantCrops.GetHashCode()));
+                int amount = extraCrop;
                 for (int i = 0; i < amount; i++)
-                    dirt.crop.newDay(1);
+                    crop.newDay(1);
             }
         }
 
@@ -266,21 +283,22 @@ namespace StardropScroll.Content.Mission
                             drops.AddDrop("(O)74", 1);
                         }
                         break;
-                }
+                    case "0":
+                    case "1":
+                        if (outDoor || treatAsOutDoor)
+                        {
+                            drops.AddDrop(ItemID.Stone, 1);
+                            if (random.NextDouble() < coalChance)
+                            {
+                                drops.AddDrop("(O)382", 1);
+                            }
 
-                if ((!outDoor && !treatAsOutDoor) ||
-                    !string.IsNullOrEmpty(stoneId) && stoneId != "0" && stoneId != "1")
-                    return;
-
-                drops.AddDrop(ItemID.Stone, 1);
-                if (random.NextDouble() < coalChance)
-                {
-                    drops.AddDrop("(O)382", 1);
-                }
-
-                if (random.NextDouble() < 0.05 * (1.0 + luckFactor))
-                {
-                    drops.AddDrop("(O)382", 1);
+                            if (random.NextDouble() < 0.05 * (1.0 + luckFactor))
+                            {
+                                drops.AddDrop("(O)382", 1);
+                            }
+                        }
+                        break;
                 }
             }
 
@@ -452,7 +470,7 @@ namespace StardropScroll.Content.Mission
                 return;
             if (t.growthStage.Value >= 5)
                 return;
-            if (GetBonusTimes(level, 0.1, 1) > 0)
+            if (GetBonusTimes(level, 0.25, 1) > 0)
             {
                 t.growthStage.Value++;
             }
@@ -464,8 +482,8 @@ namespace StardropScroll.Content.Mission
 
         public static void ExtraTreeMossChance(Tree t)
         {
-            int level = GetLevel(MissionID.HarvestMoss);
-            if (level <= 0)
+            int times = GetBonusTimes(GetLevel(MissionID.HarvestMoss), 0.5);
+            if (times <= 0)
                 return;
             //t.stopGrowingMoss 这是用了醋让树不长苔藓
             if (t.Location.IsGreenhouse && !Game1.getOnlineFarmers().Any(x => x.MasteryForaging()))
@@ -474,14 +492,13 @@ namespace StardropScroll.Content.Mission
                 return;
             if (t.growthStage.Value < 5)
                 return;
-            if (Game1.random.NextBool(level / 10.0))
-                t.hasMoss.Value = true;
+            t.hasMoss.Value = true;
         }
 
         public static void ExtraTreeImmediatelyTapper(Tree t)
         {
-            int level = GetLevel(MissionID.PlantWildTrees);
-            if (level <= 0)
+            int times = GetBonusTimes(GetLevel(MissionID.PlantWildTrees), 0.2);
+            if (times <= 0)
                 return;
             if (!t.tapped.Value)
                 return;
@@ -489,16 +506,14 @@ namespace StardropScroll.Content.Mission
             Object tapper = t.Location.getObjectAtTile(tile.X, tile.Y, false);
             if (tapper.MinutesUntilReady > 0)
             {
-                if (Game1.random.NextBool(level / 20))
-                    tapper.MinutesUntilReady = 0;
+                tapper.MinutesUntilReady = 0;
             }
         }
 
         public static void ExtraFruitTreeGrow(FruitTree t)
         {
             //t.growthRate 这玩意基于树苗星级，也就是种的更久的树重新长得更快那个设定
-            int level = GetLevel(MissionID.PlantFruitTrees);
-            t.daysUntilMature.Value -= GetBonusTimes(level, 0.167, 0.833, RandomHelper.ByDayPlays(MissionID.PlantFruitTrees.GetHashCode()));
+            t.daysUntilMature.Value -= fruit;
         }
 
         public static void ExtraWeedsDrop(Object o, Farmer who)
@@ -616,6 +631,14 @@ namespace StardropScroll.Content.Mission
             })
             { visible = false });
 
+        }
+
+        public static void RefreshExtraGlowVari()
+        {
+            instantCrop = GetBonusTimes(GetLevel(MissionID.PlantCrops), 0.01) > 0;
+            extraCrop = GetBonusTimes(GetLevel(MissionID.PlantCrops), 0.75, 0.75);
+            fruit = GetBonusTimes(GetLevel(MissionID.PlantFruitTrees), 0.75, 0.75);
+            Main.Log($"Reset crop {extraCrop}, fruit {fruit}");
         }
         private static void ReplaceUnstackable(GameLocation location)
         {

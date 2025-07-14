@@ -29,6 +29,12 @@ namespace StardropScroll
             helper.Events.GameLoop.OneSecondUpdateTicked += MissionManager.CheckIncrease;
             helper.Events.GameLoop.Saving += GameLoop_Saving;
             helper.Events.GameLoop.DayStarted += GameLoop_DayStarted;
+            helper.Events.GameLoop.DayEnding += GameLoop_DayEnding;
+        }
+
+        private void GameLoop_DayEnding(object? sender, DayEndingEventArgs e)
+        {
+            MissionBonus.RefreshExtraGlowVari();
         }
 
         private void GameLoop_DayStarted(object? sender, DayStartedEventArgs e)

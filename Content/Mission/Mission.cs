@@ -106,7 +106,7 @@ namespace StardropScroll.Content.Mission
 
         public void GetTarget()
         {
-            Money = (Level + 1) * 500;
+            Money = (Level + 1) * 100;
             Target = Data.Target + Level * Data.Step;
         }
 
